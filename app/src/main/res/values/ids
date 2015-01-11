@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="todaysTemprature" type="id"/>
+    <item name="todaysMinimumTemprature" type="id"/>
+    <item name="todaysMaximumTemprature" type="id"/>
+    <item name="todaysSunriseTemprature" type="id"/>
+    <item name="todaysSunsetTemprature" type="id"/>
+
+    <item name="forecastExpandableList" type="id"/>
+
+</resources>

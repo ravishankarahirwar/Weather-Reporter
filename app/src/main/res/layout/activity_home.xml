@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"  tools:context=".HomeActivity"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:context=".HomeActivity">
+
+<TextView
+    android:id="@id/todaysTemprature"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="26"
+    android:textSize="50sp"
+    android:layout_centerHorizontal="true"
+    />
+
+        <TextView
+            android:id="@id/todaysMinimumTemprature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tempMin"
+            android:layout_below="@id/todaysTemprature"
+            />
+
+        <TextView
+            android:id="@id/todaysMaximumTemprature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tempMax"
+            android:layout_below="@id/todaysTemprature"
+            android:layout_toRightOf="@id/todaysMinimumTemprature"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
+            android:id="@id/todaysSunriseTemprature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Rise"
+            android:layout_below="@id/todaysTemprature"
+            />
+
+        <TextView
+            android:id="@id/todaysSunsetTemprature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+          android:layout_marginRight="20dp"
+
+            android:text="Set"
+            android:layout_below="@id/todaysTemprature"
+            android:layout_toLeftOf="@id/todaysSunriseTemprature"
+            android:layout_marginLeft="20dp"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+       android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:context=".HomeActivity">
+
+        <ExpandableListView
+            android:id="@+id/ELday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ExpandableListView>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
