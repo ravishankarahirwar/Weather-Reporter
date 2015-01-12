@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import weatherreporter.dataclasses.AllData;
 import weatherreporter.dataclasses.Data;
 import weatherreporter.dataclasses.MyLog;
 import weatherreporter.dataclasses.UrlTask;
@@ -19,6 +19,7 @@ public class HomeActivity extends ActionBarActivity {
     public SharedPreferences mSettings;
     private UrlTask urlTask = null;
     public static Data newData;
+    public static AllData mAllData;
 
     boolean refreshAnim = false;
     MenuItem refreshItem;
@@ -33,6 +34,7 @@ public class HomeActivity extends ActionBarActivity {
 
         mSettings = getSharedPreferences("LAST_DATA", Context.MODE_PRIVATE);
         newData = new Data();
+        mAllData=new AllData();
         if (mSettings.contains("title")) {
 
         } else {
@@ -75,7 +77,7 @@ public class HomeActivity extends ActionBarActivity {
                 MyLog.d(TAG, "city " + city);
                 stopQuery();
                 MyLog.d(TAG, "start newURL request code 1");
-                urlTask =(UrlTask) new UrlTask(HomeActivity.this, newData, newData.strWeather
+                urlTask =(UrlTask) new UrlTask(HomeActivity.this, mAllData, newData.strWeather
                         + "q=" + city, newData.strForecast + "q=" + city
                         + "&cnt=14", city);
                 urlTask.execute();

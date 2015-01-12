@@ -8,5 +8,7 @@
     <item name="todaysSunsetTemprature" type="id"/>
 
     <item name="forecastExpandableList" type="id"/>
+    <item name="todaysSunrise" type="id"/>
+    <item name="todaysSunset" type="id"/>
 
 </resources>

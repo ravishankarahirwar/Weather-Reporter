@@ -38,23 +38,24 @@
             />
 
         <TextView
-            android:id="@id/todaysSunriseTemprature"
+            android:id="@id/todaysSunrise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:drawableTop="@drawable/ic_sunset"
             android:text="Rise"
             android:layout_below="@id/todaysTemprature"
             />
 
         <TextView
-            android:id="@id/todaysSunsetTemprature"
+            android:id="@id/todaysSunset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
           android:layout_marginRight="20dp"
-
+android:drawableTop="@drawable/ic_sunset"
             android:text="Set"
             android:layout_below="@id/todaysTemprature"
-            android:layout_toLeftOf="@id/todaysSunriseTemprature"
+            android:layout_toLeftOf="@id/todaysSunrise"
             android:layout_marginLeft="20dp"
             />
 

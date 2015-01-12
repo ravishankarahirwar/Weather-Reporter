@@ -1,6 +1,5 @@
 package weatherreporter.com.weatherreporter;
 
-import weatherreporter.com.weatherreporter.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +12,6 @@ import weatherreporter.dataclasses.MyLog;
 import weatherreporter.dataclasses.DayWeather;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -82,8 +80,8 @@ public class FirstActivity extends ActionBarActivity {
 			try {
 				MyLog.d(greg, "try pars from last data");
 				
-				dw.parsDay(new JSONObject(mSettings.getString("joDay", null)),
-						this);
+				dw.parsingTodayWeather(new JSONObject(mSettings.getString("joDay", null)),
+                        this);
 				newData.setNowWeather(dw);
 
 				JSONObject jo = new JSONObject(mSettings.getString(
