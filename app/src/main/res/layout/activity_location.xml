@@ -3,52 +3,68 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/app_bg"
+    android:layout_marginTop="10dp"
+    >
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WEATHER \n REPORTER"
+        android:textSize="50sp"
+        android:shadowColor="@color/app_base_color"
+        android:shadowDx="2"
+        android:shadowRadius="5"
+        android:layout_gravity="center_horizontal"
+        android:shadowDy="2"
+        />
     <AutoCompleteTextView
         android:id="@+id/autoCompleteCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:completionThreshold="1"
         android:ems="10"
-        android:hint="@string/enterYourCityHere"
+        android:hint="@string/hint_city"
         android:singleLine="true"
         android:inputType="text"
+        android:layout_marginTop="10dp"
     	  />
 
     <Button
         android:id="@+id/btnSearchByCity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text= "@string/searchByCity" />
+        style="@style/Button"
+
+        android:text= "@string/search_by_city" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editLat"
+            android:id="@+id/placeLatitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="широта" 
+            android:hint="@string/hint_latitude"
             android:inputType="numberDecimal"/>
 
         <EditText
-            android:id="@+id/editLon"
+            android:id="@+id/placeLongitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="долгота"
+            android:hint="@string/hint_longitude"
             android:inputType="numberDecimal"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/btnSearchByCrd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/searchByCoordinates" />
+       style="@style/Button"
+        android:text="@string/search_by_coordinates"
+
+        />
 
 </LinearLayout>

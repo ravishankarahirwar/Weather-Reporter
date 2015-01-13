@@ -1,73 +1,368 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"  tools:context=".HomeActivity"
-    android:fillViewport="true"
-    android:background="#9E9E9E"
-    >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    android:fillViewport="true" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent" >
 
-
-        >
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#607D8B"
-        android:layout_margin="8dp"
-
-        >
-
-    <TextView
-    android:id="@id/todaysTemprature"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="26"
-        android:textColor="@android:color/white"
-android:background="@drawable/circle"
-        android:padding="30dip"
-    android:textSize="50sp"
-    android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dip"
-    />
+        <!-- City Part Start Here -->
 
         <TextView
-            android:id="@id/todaysMinimumTemprature"
-            android:layout_width="wrap_content"
+            android:id="@id/cityName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="20"
-            android:textColor="@android:color/white"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/app_base_color"
             android:gravity="center"
-            android:layout_below="@id/todaysTemprature"
-            android:layout_marginLeft="10dip"
-            android:drawableTop="@drawable/ic_temp_min"
-            android:background="@drawable/circle"
-            android:padding="13dip"
-            />
-
-        <TextView
-            android:id="@id/todaysMaximumTemprature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_below="@id/todaysTemprature"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dip"
-            android:drawableTop="@drawable/ic_temp_max"
-            android:text="20"
             android:textColor="@android:color/white"
-            android:gravity="center"
-            android:background="@drawable/circle"
-            android:padding="13dip"
-            />
+            android:textSize="30sp" />
 
-</RelativeLayout>
+        <!-- Now Card Start -->
+
+        <RelativeLayout
+            android:id="@id/summaryToday"
+            style="@style/DisplayCart"
+            android:layout_below="@+id/cityName" >
+
+            <TextView
+                android:id="@id/titleNow"
+                style="@style/Header" />
+
+            <TextView
+                android:id="@id/lineNow"
+                style="@style/Line"
+                android:layout_below="@+id/titleNow" />
+
+            <TextView
+                android:id="@id/tempratureNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lineNow"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dip"
+                android:background="@drawable/circle"
+                android:gravity="center"
+                android:padding="50dip"
+                android:text="@string/default_temp"
+                android:textColor="@android:color/white"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@id/tempratureMinimumNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/tempratureNow"
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/circle"
+                android:drawableTop="@drawable/ic_temp_min"
+                android:padding="25dip"
+                android:text="16"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@id/tempratureMaximumNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tempratureNow"
+                android:layout_marginRight="10dip"
+                android:background="@drawable/circle"
+                android:drawableTop="@drawable/ic_temp_max"
+                android:padding="25dip"
+                android:text="36"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+        <!-- Now Card End -->
+
+
+
+
+        <!-- Wind/Presser Detail Start -->
+
+        <RelativeLayout
+            android:id="@id/todayWindAndPresser"
+            style="@style/DisplayCart"
+            android:layout_below="@+id/summaryToday"
+            
+             >
+
+            <TextView
+                android:id="@id/titleWind"
+                style="@style/Header" />
+
+            <TextView
+                android:id="@id/lineWindAndPresser"
+                style="@style/Line"
+                android:layout_below="@id/titleWind" />
+
+            <LinearLayout
+                android:id="@id/detailWindAndPresser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lineWindAndPresser"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@id/iconWindAndPresser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:src="@drawable/blade_big" />
+
+                <LinearLayout
+                    android:id="@id/allInfoWindAndPresser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:id="@id/infoSpeed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@id/labelSpeed"
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@id/speedValue"
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="speedValue"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@id/infoWindDegree"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@id/labelWindDegree"
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@id/valueWindDegree"
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="valueWindDegree"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Wind/Presser  Detail End Here -->
+
+
+        <!-- Sun Detail Start -->
+
+        <RelativeLayout
+            android:id="@id/todaySun"
+            style="@style/DisplayCart"
+            android:layout_below="@+id/todayWindAndPresser" >
+
+            <TextView
+                android:id="@id/titleSun"
+                style="@style/Header" />
+
+            <TextView
+                android:id="@id/lineSun"
+                style="@style/Line"
+                android:layout_below="@+id/titleSun" />
+
+            <LinearLayout
+                android:id="@id/detailSun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lineSun"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@id/iconSun"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_sun" />
+
+                <LinearLayout
+                    android:id="@+id/allInfoSun"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@id/valueSunRise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dip"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_sun_rise"
+                        android:gravity="center_vertical"
+                        
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@id/valueSunSet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dip"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_sun_set"
+                        android:gravity="center_vertical"
+                      
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+ <!-- Sun Detail END  -->
+        
+        <!-- Today Detail Start -->
+
+        <RelativeLayout
+            android:id="@id/todayDetail"
+            style="@style/DisplayCart"
+            android:layout_below="@+id/todaySun" >
+
+            <TextView
+                android:id="@id/titleDetail"
+                style="@style/Header" />
+
+            <TextView
+                android:id="@id/lineDetail"
+                style="@style/Line"
+                android:layout_below="@+id/titleDetail" />
+
+            <LinearLayout
+                android:id="@id/displayDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lineDetail"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@id/iconDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:src="@drawable/ic_deatil" />
+
+                <LinearLayout
+                    android:id="@id/displayDetailAllInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:id="@id/infoHumidity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lineDetail"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@id/labelHumidity"
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@id/valueHumidity"
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="humidityValue"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Today Detail End Here -->
+        
+        <!-- Forecast Detail Start -->
+
+        <RelativeLayout
+            android:id="@id/forecast"
+            style="@style/DisplayCart"
+            android:layout_below="@id/todayDetail" >
+
+            <TextView
+                android:id="@id/titleForecast"
+                style="@style/Header" />
+
+            <TextView
+                android:id="@id/lineForecast"
+                style="@style/Line"
+                android:layout_below="@+id/titleForecast" />
+
+            <LinearLayout
+                android:id="@id/detailForecast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lineForecast"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@id/date"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="@string/date"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@id/tempratureMinimumNow"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/ic_temp_min"
+                        android:gravity="center"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@id/tempratureMaximumNow"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/ic_temp_max"
+                        android:gravity="center"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
-
-
-
 
 </ScrollView>

@@ -11,4 +11,47 @@
     <item name="todaysSunrise" type="id"/>
     <item name="todaysSunset" type="id"/>
 
+    <item name="cityName" type="id"/>
+    <item name="summaryToday" type="id"/>
+    <item name="titleNow" type="id"/>
+    <item name="lineNow" type="id"/>
+    <item name="tempratureNow" type="id"/>
+    <item name="tempratureMinimumNow" type="id"/>
+    <item name="tempratureMaximumNow" type="id"/>
+    <item name="todayDetail" type="id"/>
+    <item name="titleDetail" type="id"/>
+    <item name="lineDetail" type="id"/>
+    <item name="displayDetail" type="id"/>
+    <item name="iconDetail" type="id"/>
+    <item name="displayDetailAllInfo" type="id"/>
+    <item name="infoHumidity" type="id"/>
+    <item name="labelHumidity" type="id"/>
+    <item name="valueHumidity" type="id"/>
+    <item name="todayWindAndPresser" type="id"/>
+    <item name="titleWind" type="id"/>
+    <item name="lineWindAndPresser" type="id"/>
+    <item name="detailWindAndPresser" type="id"/>
+    <item name="iconWindAndPresser" type="id"/>
+    <item name="allInfoWindAndPresser" type="id"/>
+    <item name="infoSpeed" type="id"/>
+    <item name="labelSpeed" type="id"/>
+    <item name="speedValue" type="id"/>
+    <item name="infoWindDegree" type="id"/>
+    <item name="valueWindDegree" type="id"/>
+    <item name="todaySun" type="id"/>
+    <item name="titleSun" type="id"/>
+    <item name="lineSun" type="id"/>
+    <item name="detailSun" type="id"/>
+    <item name="iconSun" type="id"/>
+    <item name="allInfoSun" type="id"/>
+    <item name="valueSunRise" type="id"/>
+    <item name="valueSunSet" type="id"/>
+    <item name="forecast" type="id"/>
+    <item name="titleForecast" type="id"/>
+    <item name="lineForecast" type="id"/>
+    <item name="detailForecast" type="id"/>
+    <item name="header" type="id"/>
+    <item name="date" type="id"/>
+    <item name="labelWindDegree" type="id"/>
+
 </resources>

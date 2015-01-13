@@ -72,8 +72,8 @@ public class JsonParser {
         HomeActivity.mAllData.mAllWeatherData.mMain.setTemperature(temperatureEdit(main.getDouble("temp")));
         HomeActivity.mAllData.mAllWeatherData.mMain.setPressure(String.valueOf(main.get("pressure")));
         HomeActivity.mAllData.mAllWeatherData.mMain.setHumidity(String.valueOf(main.get("humidity")));
-        HomeActivity.mAllData.mAllWeatherData.mMain.setMinimumTemperature(String.valueOf(main.get("temp_min")));
-        HomeActivity.mAllData.mAllWeatherData.mMain.setMaximumTemperature(String.valueOf(main.get("temp_max")));
+        HomeActivity.mAllData.mAllWeatherData.mMain.setMinimumTemperature(temperatureEdit(main.getDouble("temp_min")));
+        HomeActivity.mAllData.mAllWeatherData.mMain.setMaximumTemperature(temperatureEdit(main.getDouble("temp_max")));
 
 
 /*        imageId = ((Context) context).getResources().getIdentifier(

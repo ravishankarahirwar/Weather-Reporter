@@ -5,13 +5,14 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="searchByCity">Search City</string>
-    <string name="searchByCoordinates">Search By Coordinates</string>
+    <string name="search_by_city">Search By City</string>
+    <string name="search_by_coordinates">Search By Coordinates</string>
     <string name="changeCity">Change City</string>
+    <string name="refresh">Refresh</string>
+
 
 
     <string name="reset">Reset</string>
-    <string name="forecast">Forecast</string>
     <string name="writeCrd">writeCrd</string>
     <string name="London">Minsk</string>
     <string name="lat">46.99</string>
@@ -23,13 +24,11 @@
 
     <string name="temperature">Temperature</string>
     <string name="temperatureCUnit">A°C</string>
-    <string name="humidity">Humidity</string>
     <string name="percent">%</string>
-    <string name="pressure">Pressure</string>
     <string name="pressureUnit">pressureUnit</string>
-    <string name="wind">Ð²ÐµÑ‚ÐµÑ€:</string>
     <string name="speedUnit">Wind</string>
     <string name="clouds">Clouds</string>
+    <string name="default_temp">50&#x2103;</string>
 
     <string name="N">North</string>
     <string name="NE">North East</string>
@@ -40,4 +39,20 @@
     <string name="W">West</string>
     <string name="NW">NorthWest</string>
 
+    <!--      All Label  -->
+    <string name="now">Now</string>
+    <string name="detail">Detail</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="date">Date</string>
+    <string name="speed">Speed</string>
+    <string name="degree">Degree</string>
+    <string name="sun">Sun</string>
+    <string name="forecast">Forecast</string>
+    <string name="wind">Wind</string>
+
+    <!--      Hint  -->
+    <string name="hint_city">Enter city here</string>
+    <string name="hint_latitude">Latitude</string>
+    <string name="hint_longitude">Longitude</string>
 </resources>

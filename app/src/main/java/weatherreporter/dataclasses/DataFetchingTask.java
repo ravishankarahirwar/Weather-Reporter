@@ -18,13 +18,15 @@ package weatherreporter.dataclasses;
         import android.content.SharedPreferences.Editor;
         import android.os.AsyncTask;
         import android.widget.Toast;
-import weatherreporter.util.JsonParser;
+
+        import weatherreporter.managers.RequestManager;
+        import weatherreporter.util.JsonParser;
         import weatherreporter.com.weatherreporter.HomeActivity;
 
 public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
     private String weatherUrl;
     private String forecastUrl;
-    private String title;
+    private String selectedCity;
     private Data data;
     AllData allData;
     private HomeActivity contextActivity;
@@ -34,20 +36,22 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
     JSONObject weatherJson;
     JSONObject forecastJson;
     JsonParser mJsonParser;
+    RequestManager.RequestListner requestListner;
     public DataFetchingTask(HomeActivity contextActivity, AllData allData, String weatherUrl,
-                   String forecastUrl, String title) {
+                   String forecastUrl, String selectedCity,RequestManager.RequestListner requestListner) {
         MyLog.d(greg, "constructor ");
         this.allData = allData;
-        this.title = title;
+        this.selectedCity = selectedCity;
         this.weatherUrl = weatherUrl; // weather
         this.forecastUrl = forecastUrl; // forecast
         this.contextActivity = contextActivity;
         mJsonParser=new JsonParser(contextActivity);
+        this.requestListner = requestListner;
     }
 
     @Override
     protected void onPreExecute() {
-        //firstActivity.loadAnimationStart();
+        contextActivity.loadAnimationStart();
         super.onPreExecute();
     }
 
@@ -123,22 +127,22 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
                 data.setNowWeather(nowWeather);*/
 
                 Editor editor = contextActivity.mSettings.edit();
-                editor.putString("title", title);
+                editor.putString("selectedCity", selectedCity);
                 editor.putString("urlStrDay", weatherUrl);
               //  editor.putString("urlStrForecast", forecastUrl);
-                editor.putString("joDay", String.valueOf(weatherJson));
-               // editor.putString("joForecast", String.valueOf(forecastJson));
+                editor.putString("weatherJson", String.valueOf(weatherJson));
+               // editor.putString("forecastJson", String.valueOf(forecastJson));
                 editor.apply();
-
+                requestListner.onResponse();
                 // refresh visible activity
-                contextActivity.afterUrlTask();
+               // contextActivity.afterUrlTask();
                 if (contextActivity.visibleOnScreen)
                     contextActivity.afterUrlTask();
                 else
                     contextActivity.showNewData = true;
                 break;
         }
-        //firstActivity.loadAnimationStop();
+        contextActivity.loadAnimationStop();
     }
 
 

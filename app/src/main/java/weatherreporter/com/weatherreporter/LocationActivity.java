@@ -22,8 +22,8 @@ public class LocationActivity extends Activity implements OnClickListener {
 
 	Activity locationActivity = this;
 	private AutoCompleteTextView tvEnterSity;
-	private EditText lat;
-	private EditText lon;
+	private EditText placeLatitude;
+	private EditText placeLongitude;
 
 	public void onCreate(Bundle savedInstanceState) {
 		MyLog.d(greg, "onCreate");
@@ -40,8 +40,8 @@ public class LocationActivity extends Activity implements OnClickListener {
 		Button btnSearchByCity = (Button) findViewById(R.id.btnSearchByCity);
 		btnSearchByCity.setOnClickListener(this);
 
-		lat = (EditText) findViewById(R.id.editLat);
-		lon = (EditText) findViewById(R.id.editLon);
+        placeLatitude = (EditText) findViewById(R.id.placeLatitude);
+        placeLongitude = (EditText) findViewById(R.id.placeLongitude);
 
 
 
@@ -56,12 +56,12 @@ public class LocationActivity extends Activity implements OnClickListener {
 		case R.id.btnSearchByCity:
 			String str = tvEnterSity.getText().toString();
 			MyLog.d(greg, "read city " + str);
-			intent.putExtra("city", str);
+			intent.putExtra("selectedCity", str);
 			setResult(1, intent);
 			break;
 		case R.id.btnSearchByCrd:
-			String lat = this.lat.getText().toString();
-			String lon = this.lon.getText().toString();
+			String lat = this.placeLatitude.getText().toString();
+			String lon = this.placeLongitude.getText().toString();
 			MyLog.d(greg, "read lat " + lat + "lon " + lon);
 			intent.putExtra("lat", lat);
 			intent.putExtra("lon", lon);

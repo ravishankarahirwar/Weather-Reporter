@@ -5,4 +5,46 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Header">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginLeft">10dip</item>
+        <item name="android:textSize">25sp</item>
+
+    </style>
+
+
+
+    <style name="Line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:layout_marginLeft">10dip</item>
+        <item name="android:layout_marginRight">20dip</item>
+        <item name="android:layout_marginTop">2dip</item>
+    </style>
+
+
+
+    <style name="DisplayCart">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">#E6006064</item>
+        <item name="android:layout_margin">5dip</item>
+        <item name="android:layout_marginRight">20dip</item>
+
+    </style>
+
+
+    <style name="Button" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button_selector</item>
+        <item name="android:padding">5dip</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginLeft">10dp</item>
+
+    </style>
+
 </resources>

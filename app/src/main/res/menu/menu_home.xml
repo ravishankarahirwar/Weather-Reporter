@@ -3,4 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".HomeActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/editCity"
+       android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/changeCity"
+        app:showAsAction="always"
+        >
+    </item>
+
+    <item
+        android:id="@+id/refresh"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_menu_refresh"
+        android:title="@string/refresh">
+    </item>
+
 </menu>
