@@ -8,4 +8,10 @@ public class AllWeatherData {
     public Sys mSys;
     public Weather mWeather;
     public Wind mWind;
+    public AllWeatherData(){
+        mMain=new Main();
+        mSys=new Sys();
+        mWeather=new Weather();
+        mWind=new Wind();
+    }
 }

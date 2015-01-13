@@ -1,7 +1,6 @@
 package weatherreporter.com.weatherreporter;
 
 import weatherreporter.dataclasses.Data;
-import weatherreporter.dataclasses.UrlTask;
 import weatherreporter.dataclasses.MyLog;
 import weatherreporter.dataclasses.DayWeather;
 import android.app.Fragment;

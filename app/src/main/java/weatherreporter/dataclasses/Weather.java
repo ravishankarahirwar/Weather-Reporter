@@ -7,6 +7,9 @@ public class Weather {
     public String main;
     public String description;
 
+    public Weather() {
+    }
+
     public Weather(String main, String description) {
         this.main = main;
         this.description = description;

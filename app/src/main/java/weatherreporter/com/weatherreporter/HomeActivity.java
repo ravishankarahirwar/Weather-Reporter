@@ -8,16 +8,18 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import weatherreporter.dataclasses.AllData;
 import weatherreporter.dataclasses.Data;
 import weatherreporter.dataclasses.MyLog;
-import weatherreporter.dataclasses.UrlTask;
+import weatherreporter.dataclasses.DataFetchingTask;
 
 
 public class HomeActivity extends ActionBarActivity {
     public static final String TAG="HomeActivity";
     public SharedPreferences mSettings;
-    private UrlTask urlTask = null;
+    private DataFetchingTask mDataFetchingTask = null;
     public static Data newData;
     public static AllData mAllData;
 
@@ -77,10 +79,10 @@ public class HomeActivity extends ActionBarActivity {
                 MyLog.d(TAG, "city " + city);
                 stopQuery();
                 MyLog.d(TAG, "start newURL request code 1");
-                urlTask =(UrlTask) new UrlTask(HomeActivity.this, mAllData, newData.strWeather
+                mDataFetchingTask =(DataFetchingTask) new DataFetchingTask(HomeActivity.this, mAllData, newData.strWeather
                         + "q=" + city, newData.strForecast + "q=" + city
                         + "&cnt=14", city);
-                urlTask.execute();
+                mDataFetchingTask.execute();
 
                 break;
             case 2:
@@ -89,10 +91,7 @@ public class HomeActivity extends ActionBarActivity {
                 String lon = intent.getStringExtra("lon");
                 MyLog.d(TAG, "request code 2");
                 stopQuery();
-                urlTask = (UrlTask) new UrlTask(HomeActivity.this, newData, newData.strWeather
-                        + "lat=" + lat + "&lon=" + lon, newData.strForecast
-                        + "lat=" + lat + "&lon=" + lon + "&cnt=14", lat + " " + lon)
-                        .execute();
+
                 break;
         }
     }
@@ -101,12 +100,15 @@ public class HomeActivity extends ActionBarActivity {
         MyLog.d(TAG, "startChangeActivity");
         Intent intent = new Intent(this, LocationActivity.class);
         startActivityForResult(intent, 1);
-    }
+    }/* urlTask = (DataFetchingTask) new DataFetchingTask(HomeActivity.this, newData, newData.strWeather
+                        + "lat=" + lat + "&lon=" + lon, newData.strForecast
+                        + "lat=" + lat + "&lon=" + lon + "&cnt=14", lat + " " + lon)
+                        .execute();*/
     private void stopQuery() {// stop another query
-        if (null != urlTask
-                && (!urlTask.isCancelled() || AsyncTask.Status.FINISHED != urlTask
+        if (null != mDataFetchingTask
+                && (!mDataFetchingTask.isCancelled() || AsyncTask.Status.FINISHED != mDataFetchingTask
                 .getStatus()))
-            urlTask.cancel(false);
+            mDataFetchingTask.cancel(false);
     }
 
     public void loadAnimationStart() {
@@ -128,6 +130,7 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     public void afterUrlTask() {
+        Toast.makeText(HomeActivity.this,"Data Fatched"+mAllData.mAllWeatherData.mMain.getTemperature(), Toast.LENGTH_LONG).show();
 //        if (now != null) {
 //            now.select();
 //            bar.setTitle(newData.title);

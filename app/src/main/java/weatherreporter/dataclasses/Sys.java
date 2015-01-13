@@ -9,6 +9,9 @@ public class Sys {
     public String sunrise;
     public String sunset;
 
+    public Sys() {
+    }
+
     public Sys(String message, String country, String sunrise, String sunset) {
         this.message = message;
         this.country = country;

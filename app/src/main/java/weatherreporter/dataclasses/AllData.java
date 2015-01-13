@@ -6,4 +6,9 @@ package weatherreporter.dataclasses;
 public class AllData {
     public AllWeatherData mAllWeatherData;
     public AllForecastData mAllForecastData;
+
+    public AllData() {
+       mAllWeatherData=new AllWeatherData();
+       mAllForecastData=new AllForecastData();
+    }
 }

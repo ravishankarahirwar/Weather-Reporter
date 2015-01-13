@@ -13,17 +13,19 @@ import weatherreporter.dataclasses.MyLog;
 import weatherreporter.dataclasses.Main;
 
 /**
- * Created by acer on 1/12/2015.
+ * Created by Ravishankar on 1/12/2015.
  */
 public class JsonParser {
     private static final String TAG="JsonParser";
     private Main mMain;
+    Context mContext;
+    public JsonParser(Context context) {
 
-    public JsonParser() {
         this.mMain = mMain;
+        this.mContext=context;
     }
 
-    void parsForecast(JSONObject weatherJson) throws JSONException {
+    public void parsForecast(JSONObject weatherJson) throws JSONException {
         MyLog.d(TAG, "try pars jsonForecast: " + weatherJson);
         if (weatherJson.has("cnt")) {
             MyLog.d(TAG, "try pars forecast start");
@@ -34,30 +36,30 @@ public class JsonParser {
                 JSONObject day = (JSONObject) list.get(i);
                 MyLog.d("greg", "forecast for (i=" + i + ")");
                 forecast[i] = new DayWeather();
-                forecast[i].parsForecast(day, contextActivity);
+                parsForecast(day);
             }
-            forecastWeather = forecast;
+          //  forecastWeather = forecast;
             return;
         }
         throw new JSONException("server error");
     }
 
-    void parseWeather(JSONObject weatherJson) throws JSONException {
+    public void parseWeather(JSONObject weatherJson) throws JSONException {
         MyLog.d(TAG, "try pars jsonDay: " + weatherJson);
         if (weatherJson.has("main")) {
             MyLog.d(TAG, "try pars nowweather start");
             DayWeather nowWeather = new DayWeather();
-            nowWeather.parsingTodayWeather(weatherJson, contextActivity);
-            this.nowWeather = nowWeather;
+            parsingTodayWeather(weatherJson);
+           // this.nowWeather = nowWeather;
             return;
         }
         throw new JSONException("server error");
     }
 
-    public void parsingTodayWeather(JSONObject json, Context context) throws JSONException {
+    public void parsingTodayWeather(JSONObject json) throws JSONException {
         MyLog.d(TAG , "start pars day weather " + json);
 
-        cntxt = (Context) context;
+      //  cntxt = (Context) context;
         JSONObject main;
 
         main = (JSONObject) json.get("main");
@@ -66,26 +68,26 @@ public class JsonParser {
         JSONObject weather2 = (JSONObject) weather.get(0);
         JSONObject wind = (JSONObject) json.get("wind");
 
-        HomeActivity.mAllData.mAllWeatherData.mMain.city
+      //  HomeActivity.mAllData.mAllWeatherData.mMain.city = (String) json.get("name");
+        HomeActivity.mAllData.mAllWeatherData.mMain.setTemperature(temperatureEdit(main.getDouble("temp")));
+        HomeActivity.mAllData.mAllWeatherData.mMain.setPressure(String.valueOf(main.get("pressure")));
+        HomeActivity.mAllData.mAllWeatherData.mMain.setHumidity(String.valueOf(main.get("humidity")));
+        HomeActivity.mAllData.mAllWeatherData.mMain.setMinimumTemperature(String.valueOf(main.get("temp_min")));
+        HomeActivity.mAllData.mAllWeatherData.mMain.setMaximumTemperature(String.valueOf(main.get("temp_max")));
 
-        HomeActivity.mAllData.mAllWeatherData.mMain.city = (String) json.get("name");
-        HomeActivity.mAllData.mAllWeatherData.mMain.temp = temperatureEdit(main.getDouble("temp"));
-        HomeActivity.mAllData.mAllWeatherData.mMain.pressure=String.valueOf(main.get("pressure"));
-        HomeActivity.mAllData.mAllWeatherData.mMain.humidity=String.valueOf(main.get("humidity"));
-        HomeActivity.mAllData.mAllWeatherData.mWind.speed=String.valueOf(main.get("windSpeed"));
 
-        imageId = ((Context) context).getResources().getIdentifier(
+/*        imageId = ((Context) context).getResources().getIdentifier(
                 "w_" + String.valueOf(weather2.get("icon")), "drawable",
                 ((Context) context).getPackageName());
 
         description = context.getString(((Context) context).getResources().getIdentifier(
                 "d" + String.valueOf(weather2.get("id")), "string",
-                ((Context) context).getPackageName()));
+                ((Context) context).getPackageName()));*/
     };
 
     public void parsForecast(JSONObject json, Context context)
             throws JSONException {
-        MyLog.d(greg , "pars day forecast " + json);
+       /* MyLog.d(greg , "pars day forecast " + json);
         cntxt = (Context) context;
 
         JSONArray weather = (JSONArray) json.get("weather");
@@ -117,7 +119,7 @@ public class JsonParser {
         description = context.getString(((Context) context).getResources().getIdentifier(
                 "d" + String.valueOf(weather2.get("id")), "string",
                 ((Context) context).getPackageName()));
-
+*/
     };
 
 

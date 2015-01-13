@@ -1,80 +1,73 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"  tools:context=".HomeActivity"
-    android:orientation="vertical"
+    android:fillViewport="true"
+    android:background="#9E9E9E"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:context=".HomeActivity">
+        android:layout_height="match_parent"
 
-<TextView
+
+        >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#607D8B"
+        android:layout_margin="8dp"
+
+        >
+
+    <TextView
     android:id="@id/todaysTemprature"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="26"
+        android:textColor="@android:color/white"
+android:background="@drawable/circle"
+        android:padding="30dip"
     android:textSize="50sp"
     android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dip"
     />
 
         <TextView
             android:id="@id/todaysMinimumTemprature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="tempMin"
+            android:text="20"
+            android:textColor="@android:color/white"
+            android:gravity="center"
             android:layout_below="@id/todaysTemprature"
+            android:layout_marginLeft="10dip"
+            android:drawableTop="@drawable/ic_temp_min"
+            android:background="@drawable/circle"
+            android:padding="13dip"
             />
 
         <TextView
             android:id="@id/todaysMaximumTemprature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="tempMax"
-            android:layout_below="@id/todaysTemprature"
-            android:layout_toRightOf="@id/todaysMinimumTemprature"
-            android:layout_marginLeft="20dp"
-            />
 
-        <TextView
-            android:id="@id/todaysSunrise"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_below="@id/todaysTemprature"
             android:layout_alignParentRight="true"
-            android:drawableTop="@drawable/ic_sunset"
-            android:text="Rise"
-            android:layout_below="@id/todaysTemprature"
+            android:layout_marginRight="10dip"
+            android:drawableTop="@drawable/ic_temp_max"
+            android:text="20"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:background="@drawable/circle"
+            android:padding="13dip"
             />
 
-        <TextView
-            android:id="@id/todaysSunset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-          android:layout_marginRight="20dp"
-android:drawableTop="@drawable/ic_sunset"
-            android:text="Set"
-            android:layout_below="@id/todaysTemprature"
-            android:layout_toLeftOf="@id/todaysSunrise"
-            android:layout_marginLeft="20dp"
-            />
-
+</RelativeLayout>
     </RelativeLayout>
 
-    <LinearLayout
-       android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:context=".HomeActivity">
-
-        <ExpandableListView
-            android:id="@+id/ELday"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ExpandableListView>
 
 
 
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

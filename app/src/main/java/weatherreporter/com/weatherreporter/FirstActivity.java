@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import android.support.v7.app.ActionBarActivity;
 
 import weatherreporter.dataclasses.Data;
-import weatherreporter.dataclasses.UrlTask;
+import weatherreporter.dataclasses.DataFetchingTask;
 import weatherreporter.dataclasses.MyLog;
 import weatherreporter.dataclasses.DayWeather;
 import android.app.ActionBar;
@@ -43,7 +43,7 @@ public class FirstActivity extends ActionBarActivity {
 	public ImageView imv;
 	boolean refreshAnim = false;
 	MenuItem refreshItem;
-	UrlTask urlTask = null;
+
 	public boolean visibleOnScreen = false;
 	public boolean showNewData = false;
 	public SharedPreferences mSettings;
@@ -80,8 +80,8 @@ public class FirstActivity extends ActionBarActivity {
 			try {
 				MyLog.d(greg, "try pars from last data");
 				
-				dw.parsingTodayWeather(new JSONObject(mSettings.getString("joDay", null)),
-                        this);
+				/*dw.parsingTodayWeather(new JSONObject(mSettings.getString("joDay", null)),
+                        this);*/
 				newData.setNowWeather(dw);
 
 				JSONObject jo = new JSONObject(mSettings.getString(
@@ -94,7 +94,7 @@ public class FirstActivity extends ActionBarActivity {
 					JSONObject day = (JSONObject) list.get(i);
 					MyLog.d(greg, "forecast for (i=" + i + ")");
 					forecast[i] = new DayWeather();
-					forecast[i].parsForecast(day, this);
+					//forecast[i].parsForecast(day, this);
 				}
 				newData.setForecast(forecast);
 			} catch (JSONException e) {
@@ -186,18 +186,12 @@ public class FirstActivity extends ActionBarActivity {
 
 			return;
 		}
-		stopQuery();
+
 		// start new query with last data
 //		urlTask = (UrlTask) new UrlTask(this, newData, newData.urlStrDay,
 //				newData.urlStrForecast, newData.title).execute();
 	}
 
-	private void stopQuery() {// stop another query
-		if (null != urlTask
-				&& (!urlTask.isCancelled() || AsyncTask.Status.FINISHED != urlTask
-						.getStatus()))
-			urlTask.cancel(false);
-	}
 
 	public void startChangeActivity() {
 		MyLog.d(greg, "startChangeActivity");

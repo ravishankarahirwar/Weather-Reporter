@@ -4,12 +4,16 @@ package weatherreporter.dataclasses;
  * Created by Ravi on 1/12/2015.
  */
 public class Main {
-    public String temp;
-    public String temp_min;
-    public String temp_max;
-    public String pressure;
-    public String humidity;
-    public String city;
+    private String temp;
+    private String temp_min;
+    private String temp_max;
+    private String pressure;
+    private String humidity;
+    private String city;
+
+    public Main() {
+    }
+
     public Main(String temp, String temp_min, String temp_max, String pressure, String humidity) {
         this.temp = temp;
         this.temp_min = temp_min;

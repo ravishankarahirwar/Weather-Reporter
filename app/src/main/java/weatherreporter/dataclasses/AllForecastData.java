@@ -7,12 +7,17 @@ import java.util.ArrayList;
  */
 public class AllForecastData {
     public String dt;
-    public ArrayList<AllWeatherData> list=new ArrayList<AllWeatherData>();
+    public ArrayList<AllWeatherData> list;
+
+    public AllForecastData() {
+        list=new ArrayList<AllWeatherData>();
+    }
 
     /**
      * @param  date :
      * */
-    public AllForecastData(String date, ArrayList<AllWeatherData> list) {
+
+     public AllForecastData(String date, ArrayList<AllWeatherData> list) {
         this.dt = dt;
         this.list = list;
     }

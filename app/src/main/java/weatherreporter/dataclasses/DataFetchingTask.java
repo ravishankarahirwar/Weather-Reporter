@@ -18,7 +18,7 @@ package weatherreporter.dataclasses;
         import android.content.SharedPreferences.Editor;
         import android.os.AsyncTask;
         import android.widget.Toast;
-
+import weatherreporter.util.JsonParser;
         import weatherreporter.com.weatherreporter.HomeActivity;
 
 public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
@@ -33,7 +33,7 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
     private DayWeather[] forecastWeather;
     JSONObject weatherJson;
     JSONObject forecastJson;
-
+    JsonParser mJsonParser;
     public DataFetchingTask(HomeActivity contextActivity, AllData allData, String weatherUrl,
                    String forecastUrl, String title) {
         MyLog.d(greg, "constructor ");
@@ -42,7 +42,7 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
         this.weatherUrl = weatherUrl; // weather
         this.forecastUrl = forecastUrl; // forecast
         this.contextActivity = contextActivity;
-
+        mJsonParser=new JsonParser(contextActivity);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
         try {// day
             MyLog.d(greg, weatherUrl);
             weatherJson = connectToOpenWeatherServer(weatherUrl);
-            parseWeather(weatherJson);
+            mJsonParser.parseWeather(weatherJson);
         } catch (JSONException e) {
             e.printStackTrace();
             return 1;
@@ -76,10 +76,10 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
 
 
 
-        try {// forecast
+      /*  try {// forecast
             MyLog.d(greg, forecastUrl);
             forecastJson = connectToOpenWeatherServer(forecastUrl);
-            parsForecast(forecastJson);
+            mJsonParser.parsForecast(forecastJson);
         } catch (JSONException e) {
             e.printStackTrace();
             return 1;
@@ -90,7 +90,7 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
         } catch (ParseException e) {
             e.printStackTrace();
             return 3;
-        }
+        }*/
         return 0;
     }
 
@@ -116,21 +116,22 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
             // if data has been successfully received
             case 0:
                 // save query string and title to refresh data next time
-                data.urlStrDay = weatherUrl;
+                /*data.urlStrDay = weatherUrl;
                 data.urlStrForecast = forecastUrl;
                 data.title = title;
                 data.setForecast(forecastWeather);
-                data.setNowWeather(nowWeather);
+                data.setNowWeather(nowWeather);*/
 
                 Editor editor = contextActivity.mSettings.edit();
                 editor.putString("title", title);
                 editor.putString("urlStrDay", weatherUrl);
-                editor.putString("urlStrForecast", forecastUrl);
+              //  editor.putString("urlStrForecast", forecastUrl);
                 editor.putString("joDay", String.valueOf(weatherJson));
-                editor.putString("joForecast", String.valueOf(forecastJson));
+               // editor.putString("joForecast", String.valueOf(forecastJson));
                 editor.apply();
 
                 // refresh visible activity
+                contextActivity.afterUrlTask();
                 if (contextActivity.visibleOnScreen)
                     contextActivity.afterUrlTask();
                 else
