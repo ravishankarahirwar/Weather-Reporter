@@ -4,8 +4,9 @@ package weatherreporter.dataclasses;
  * Created by acer on 1/12/2015.
  */
 public class Wind {
-    public String speed;
-    public String deg;
+    private String speed;
+    private String deg;
+    private String gust;
 
     public Wind() {
     }
@@ -29,5 +30,13 @@ public class Wind {
 
     public void setDeg(String deg) {
         this.deg = deg;
+    }
+
+    public String getGust() {
+        return gust;
+    }
+
+    public void setGust(String gust) {
+        this.gust = gust;
     }
 }
