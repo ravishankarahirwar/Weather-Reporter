@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_base_color">#E6006064</color>
+
+
+    <color name="button_selected">#2962FF</color>
+    <color name="button_normal">#E6006064</color>
+    <color name="button_focus">#1A237E</color>
+
+</resources>
