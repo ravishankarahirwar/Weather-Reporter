@@ -61,16 +61,21 @@ public class JsonParser {
         MyLog.d(TAG, "start pars day weather " + json);
 
         //  cntxt = (Context) context;
-        JSONObject main;
 
-        main = (JSONObject) json.get("main");
+
+        JSONObject main = (JSONObject) json.get("main");
 
         JSONArray weather = (JSONArray) json.get("weather");
         JSONObject weather2 = (JSONObject) weather.get(0);
         JSONObject wind = (JSONObject) json.get("wind");
         JSONObject sys = (JSONObject) json.get("sys");
 
-        //  HomeActivity.mAllData.mAllWeatherData.mMain.city = (String) json.get("name");
+        HomeActivity.mAllData.mAllWeatherData.setCity((String) json.get("name"));
+        String strLastUpdateTime = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm")
+                .format(new java.util.Date(json.getLong("dt") * 1000));
+
+        HomeActivity.mAllData.mAllWeatherData.setLastUpdateTime(strLastUpdateTime);
+
         HomeActivity.mAllData.mAllWeatherData.mMain.setTemperature(temperatureEdit(main.getDouble("temp")));
         HomeActivity.mAllData.mAllWeatherData.mMain.setPressure(String.valueOf(main.get("pressure")));
         HomeActivity.mAllData.mAllWeatherData.mMain.setHumidity(String.valueOf(main.get("humidity")));
@@ -79,13 +84,14 @@ public class JsonParser {
 
 
         HomeActivity.mAllData.mAllWeatherData.mWind.setSpeed(String.valueOf(wind.get("speed")));
-        HomeActivity.mAllData.mAllWeatherData.mWind.setGust(String.valueOf(wind.get("gust")));
+      //  HomeActivity.mAllData.mAllWeatherData.mWind.setGust(String.valueOf(wind.get("gust")));
         HomeActivity.mAllData.mAllWeatherData.mWind.setDeg(String.valueOf(wind.get("deg")));
 
         HomeActivity.mAllData.mAllWeatherData.mSys.setCountry(String.valueOf(sys.get("country")));
         HomeActivity.mAllData.mAllWeatherData.mSys.setMessage(String.valueOf(sys.get("message")));
-        HomeActivity.mAllData.mAllWeatherData.mSys.setSunrise(String.valueOf(sys.get("sunrise")));
-        HomeActivity.mAllData.mAllWeatherData.mSys.setSunset(String.valueOf(sys.get("sunset")));
+
+        HomeActivity.mAllData.mAllWeatherData.mSys.setSunrise(convertMillesecondToTime(sys.getLong("sunrise")));
+        HomeActivity.mAllData.mAllWeatherData.mSys.setSunset(convertMillesecondToTime(sys.getLong("sunset")));
 
 
 
@@ -106,8 +112,8 @@ public class JsonParser {
 
     public void parsForecast(JSONObject json, Context context)
             throws JSONException {
-        MyLog.d(greg , "pars day forecast " + json);
-        cntxt = (Context) context;
+     //   MyLog.d(TAG , "pars day forecast " + json);
+    /*    cntxt = (Context) context;
 
         JSONArray weather = (JSONArray) json.get("weather");
         JSONObject weather2 = (JSONObject) weather.get(0);
@@ -137,7 +143,7 @@ public class JsonParser {
 
         description = context.getString(((Context) context).getResources().getIdentifier(
                 "d" + String.valueOf(weather2.get("id")), "string",
-                ((Context) context).getPackageName()));
+                ((Context) context).getPackageName()));*/
 
     }
 
@@ -172,5 +178,11 @@ public class JsonParser {
         if (i > 292 && i <= 337)
             return (R.string.NW);
         return (R.string.hello_world);
+    }
+
+    private String convertMillesecondToTime(long millisecond){
+        String time = new java.text.SimpleDateFormat("HH:mm")
+                .format(new java.util.Date(millisecond * 1000));
+        return time;
     }
 }

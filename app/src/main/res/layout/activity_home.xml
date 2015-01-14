@@ -1,13 +1,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_bg"
-    android:fillViewport="true" >
+    android:fillViewport="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <!-- City Part Start Here -->
 
@@ -15,20 +14,30 @@
             android:id="@id/cityName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
+            android:background="@color/app_base_color"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
+        <TextView
+            android:id="@id/lastUpdateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cityName"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="@color/app_base_color"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:textColor="@android:color/white"
-            android:textSize="30sp" />
-
+            android:textSize="10sp" />
         <!-- Now Card Start -->
 
         <RelativeLayout
             android:id="@id/summaryToday"
             style="@style/DisplayCart"
-            android:layout_below="@+id/cityName" >
+            android:layout_below="@+id/lastUpdateTime">
 
             <TextView
                 android:id="@id/titleNow"
@@ -84,16 +93,14 @@
         <!-- Now Card End -->
 
 
-
-
         <!-- Wind/Presser Detail Start -->
 
         <RelativeLayout
             android:id="@id/todayWindAndPresser"
             style="@style/DisplayCart"
             android:layout_below="@+id/summaryToday"
-            
-             >
+
+            >
 
             <TextView
                 android:id="@id/titleWind"
@@ -109,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lineWindAndPresser"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@id/iconWindAndPresser"
@@ -123,13 +130,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@id/infoSpeed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@id/labelSpeed"
@@ -151,7 +158,7 @@
                         android:id="@id/infoWindDegree"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@id/labelWindDegree"
@@ -180,7 +187,7 @@
         <RelativeLayout
             android:id="@id/todaySun"
             style="@style/DisplayCart"
-            android:layout_below="@+id/todayWindAndPresser" >
+            android:layout_below="@+id/todayWindAndPresser">
 
             <TextView
                 android:id="@id/titleSun"
@@ -196,7 +203,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lineSun"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@id/iconSun"
@@ -212,7 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@id/valueSunRise"
@@ -221,7 +228,7 @@
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/ic_sun_rise"
                         android:gravity="center_vertical"
-                        
+
                         android:textColor="@android:color/white" />
 
                     <TextView
@@ -231,19 +238,19 @@
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/ic_sun_set"
                         android:gravity="center_vertical"
-                      
+
                         android:textColor="@android:color/white" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
- <!-- Sun Detail END  -->
-        
+        <!-- Sun Detail END  -->
+
         <!-- Today Detail Start -->
 
         <RelativeLayout
             android:id="@id/todayDetail"
             style="@style/DisplayCart"
-            android:layout_below="@+id/todaySun" >
+            android:layout_below="@+id/todaySun">
 
             <TextView
                 android:id="@id/titleDetail"
@@ -259,7 +266,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lineDetail"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@id/iconDetail"
@@ -273,14 +280,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@id/infoHumidity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/lineDetail"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@id/labelHumidity"
@@ -297,18 +304,42 @@
                             android:text="humidityValue"
                             android:textColor="@android:color/white" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:id="@id/infoPresser"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lineDetail"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@id/labelPresser"
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@id/valuePresser"
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="humidityValue"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 
         <!-- Today Detail End Here -->
-        
+
         <!-- Forecast Detail Start -->
 
         <RelativeLayout
             android:id="@id/forecast"
             style="@style/DisplayCart"
-            android:layout_below="@id/todayDetail" >
+            android:layout_below="@id/todayDetail"
+            android:visibility="gone"
+            >
 
             <TextView
                 android:id="@id/titleForecast"
@@ -324,14 +355,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lineForecast"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@id/header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@id/date"

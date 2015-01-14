@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <item name="todaysTemprature" type="id"/>
     <item name="todaysMinimumTemprature" type="id"/>
     <item name="todaysMaximumTemprature" type="id"/>
@@ -12,6 +11,9 @@
     <item name="todaysSunset" type="id"/>
 
     <item name="cityName" type="id"/>
+
+    <item name="lastUpdateTime" type="id"/>
+
     <item name="summaryToday" type="id"/>
     <item name="titleNow" type="id"/>
     <item name="lineNow" type="id"/>
@@ -24,9 +26,15 @@
     <item name="displayDetail" type="id"/>
     <item name="iconDetail" type="id"/>
     <item name="displayDetailAllInfo" type="id"/>
+
     <item name="infoHumidity" type="id"/>
     <item name="labelHumidity" type="id"/>
     <item name="valueHumidity" type="id"/>
+
+    <item name="infoPresser" type="id"/>
+    <item name="labelPresser" type="id"/>
+    <item name="valuePresser" type="id"/>
+
     <item name="todayWindAndPresser" type="id"/>
     <item name="titleWind" type="id"/>
     <item name="lineWindAndPresser" type="id"/>

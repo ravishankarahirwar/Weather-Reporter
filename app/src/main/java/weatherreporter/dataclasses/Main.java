@@ -9,7 +9,7 @@ public class Main {
     private String temp_max;
     private String pressure;
     private String humidity;
-    private String city;
+
 
     public Main() {
     }
@@ -21,7 +21,6 @@ public class Main {
         this.pressure = pressure;
         this.humidity = humidity;
     }
-
 
 
     public String getTemperature() {
@@ -64,11 +63,5 @@ public class Main {
         this.humidity = humidity;
     }
 
-    public String getCity() {
-        return city;
-    }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
 }

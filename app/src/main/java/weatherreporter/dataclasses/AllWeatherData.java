@@ -8,10 +8,28 @@ public class AllWeatherData {
     public Sys mSys;
     public Weather mWeather;
     public Wind mWind;
-    public AllWeatherData(){
-        mMain=new Main();
-        mSys=new Sys();
-        mWeather=new Weather();
-        mWind=new Wind();
+    private String city;
+    private String lastUpdateTime;
+
+    public AllWeatherData() {
+        mMain = new Main();
+        mSys = new Sys();
+        mWeather = new Weather();
+        mWind = new Wind();
+    }
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(String lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
     }
 }

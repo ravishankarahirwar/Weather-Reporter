@@ -10,14 +10,14 @@ public class AllForecastData {
     public ArrayList<AllWeatherData> list;
 
     public AllForecastData() {
-        list=new ArrayList<AllWeatherData>();
+        list = new ArrayList<AllWeatherData>();
     }
 
     /**
-     * @param  date :
-     * */
+     * @param date :
+     */
 
-     public AllForecastData(String date, ArrayList<AllWeatherData> list) {
+    public AllForecastData(String date, ArrayList<AllWeatherData> list) {
         this.dt = dt;
         this.list = list;
     }

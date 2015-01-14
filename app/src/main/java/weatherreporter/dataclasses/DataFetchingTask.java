@@ -5,47 +5,49 @@ package weatherreporter.dataclasses;
  */
 
 
-        import java.io.IOException;
+import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
+import android.widget.Toast;
 
-        import org.apache.http.ParseException;
-        import org.apache.http.client.ClientProtocolException;
-        import org.apache.http.client.methods.HttpGet;
-        import org.apache.http.impl.client.DefaultHttpClient;
-        import org.apache.http.util.EntityUtils;
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
-        import android.content.SharedPreferences.Editor;
-        import android.os.AsyncTask;
-        import android.widget.Toast;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-        import weatherreporter.managers.RequestManager;
-        import weatherreporter.util.JsonParser;
-        import weatherreporter.com.weatherreporter.HomeActivity;
+import java.io.IOException;
+import java.net.URLEncoder;
+
+import weatherreporter.com.weatherreporter.HomeActivity;
+import weatherreporter.managers.RequestManager;
+import weatherreporter.util.JsonParser;
 
 public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
-    private String weatherUrl;
-    private String forecastUrl;
-    private String selectedCity;
-    private Data data;
     AllData allData;
-    private HomeActivity contextActivity;
-    private String greg = "UrlTask";
-    private DayWeather nowWeather;
-    private DayWeather[] forecastWeather;
     JSONObject weatherJson;
     JSONObject forecastJson;
     JsonParser mJsonParser;
     RequestManager.RequestListner requestListner;
+    private String weatherUrl;
+    private String forecastUrl;
+    private String selectedCity;
+    private Data data;
+    private HomeActivity contextActivity;
+    private String greg = "UrlTask";
+    private DayWeather nowWeather;
+    private DayWeather[] forecastWeather;
+
     public DataFetchingTask(HomeActivity contextActivity, AllData allData, String weatherUrl,
-                   String forecastUrl, String selectedCity,RequestManager.RequestListner requestListner) {
+                            String forecastUrl, String selectedCity, RequestManager.RequestListner requestListner) {
         MyLog.d(greg, "constructor ");
         this.allData = allData;
         this.selectedCity = selectedCity;
         this.weatherUrl = weatherUrl; // weather
         this.forecastUrl = forecastUrl; // forecast
         this.contextActivity = contextActivity;
-        mJsonParser=new JsonParser(contextActivity);
+        mJsonParser = new JsonParser(contextActivity);
         this.requestListner = requestListner;
     }
 
@@ -103,7 +105,7 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
         switch (result) {
             // if data was not received
             case 2:
-                Toast.makeText(contextActivity,"No data found",
+                Toast.makeText(contextActivity, "No data found",
                         Toast.LENGTH_LONG).show();
                 break;
             case 1:
@@ -129,13 +131,13 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
                 Editor editor = contextActivity.mSettings.edit();
                 editor.putString("selectedCity", selectedCity);
                 editor.putString("urlStrDay", weatherUrl);
-              //  editor.putString("urlStrForecast", forecastUrl);
+                //  editor.putString("urlStrForecast", forecastUrl);
                 editor.putString("weatherJson", String.valueOf(weatherJson));
-               // editor.putString("forecastJson", String.valueOf(forecastJson));
+                // editor.putString("forecastJson", String.valueOf(forecastJson));
                 editor.apply();
                 requestListner.onResponse();
                 // refresh visible activity
-               // contextActivity.afterUrlTask();
+                // contextActivity.afterUrlTask();
                 if (contextActivity.visibleOnScreen)
                     contextActivity.afterUrlTask();
                 else
@@ -146,15 +148,13 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
     }
 
 
-
     JSONObject connectToOpenWeatherServer(String apiUrl) throws ParseException,
             ClientProtocolException, JSONException, IOException {
         JSONObject jsonObject = new JSONObject(
                 EntityUtils.toString(new DefaultHttpClient().execute(
-                        new HttpGet(apiUrl)).getEntity()));
+                        new HttpGet(apiUrl.replace(" ","%20"))).getEntity()));
         return jsonObject;
     }
-
 
 
 }
