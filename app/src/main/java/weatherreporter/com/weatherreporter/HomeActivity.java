@@ -23,27 +23,24 @@ import org.json.JSONObject;
 
 import weatherreporter.util.JsonParser;
 import weatherreporter.dataclasses.AllData;
-import weatherreporter.dataclasses.Data;
 import weatherreporter.dataclasses.DataFetchingTask;
 import weatherreporter.dataclasses.MyLog;
 import weatherreporter.managers.RequestManager;
+import weatherreporter.util.WeatherApi;
 
 
 public class HomeActivity extends ActionBarActivity implements RequestManager.RequestListner {
     public static final String TAG = "HomeActivity";
-    public static Data newData;
     public static AllData mAllData;
     public SharedPreferences mSettings;
     public boolean visibleOnScreen = false;
     public boolean showNewData = false;
-    public ImageView imv;
     boolean refreshAnim = false;
-    MenuItem refreshItem;
-    Typeface mHeaderFont, mLabelValueFont;
+    private MenuItem refreshItem;
+    private Typeface mHeaderFont, mLabelValueFont;
     private DataFetchingTask mDataFetchingTask = null;
 
-    private View detailForecastRowView;
-    private ImageView iconWindAndPresser, iconSun;
+    private ImageView iconWindAndPresser, iconSun,iconDetail,imv;
     private JsonParser mJsonParser;
     private TextView cityName,lastUpdateTime, titleNow, tempratureNow, tempratureMinimumNow,
             tempratureMaximumNow, titleDetail, labelHumidity, valueHumidity,
@@ -57,7 +54,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         setContentView(R.layout.activity_home);
         init();
         mSettings = getSharedPreferences("LAST_DATA", Context.MODE_PRIVATE);
-        newData = new Data();
+
         mAllData = new AllData();
         if (mSettings.contains("selectedCity")) {
             try{
@@ -69,7 +66,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
             e.printStackTrace();
         }
         } else {
-            // ask user chose city or coordinate
+            // ask user chose city
             MyLog.d(TAG, "startChangeActivity");
             startChangeActivity();
         }
@@ -80,8 +77,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
 
         iconWindAndPresser = (ImageView) findViewById(R.id.iconWindAndPresser);
         iconSun = (ImageView) findViewById(R.id.iconSun);
-        iconWindAndPresser.startAnimation(AnimationUtils.loadAnimation(this, R.anim.wind_flow));
-        iconSun.startAnimation(AnimationUtils.loadAnimation(this, R.anim.sun_rise_set));
+        iconDetail = (ImageView) findViewById(R.id.iconDetail);
 
         mHeaderFont = Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf");
         mLabelValueFont = Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf");
@@ -145,11 +141,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         date.setText(R.string.date);
         labelPresser.setText(R.string.pressure);
 
-
-
-
-
-
+        iconWindAndPresser.startAnimation(AnimationUtils.loadAnimation(this, R.anim.wind_flow));
+        iconSun.startAnimation(AnimationUtils.loadAnimation(this, R.anim.sun_rise_set));
     }
 
     @Override
@@ -189,18 +182,12 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.editCity:
                 startChangeActivity();
                 break;
             case R.id.refresh:
-               // Toast.makeText(this, "Refresh Menu Clicked", Toast.LENGTH_LONG).show();
                 refresh();
                 break;
         }
@@ -216,24 +203,16 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         switch (resultCode) {
             case 1:
                 // start new query with "city"
-                String city = intent.getStringExtra("selectedCity");
-                MyLog.d(TAG, "city " + city);
+                String selectedCity = intent.getStringExtra("selectedCity");
+                MyLog.d(TAG, "city " + selectedCity);
                 stopQuery();
                 MyLog.d(TAG, "start newURL request code 1");
-                mDataFetchingTask = (DataFetchingTask) new DataFetchingTask(HomeActivity.this, mAllData, newData.strWeather
-                        + "q=" + city, newData.strForecast + "q=" + city
-                        + "&cnt=14", city, this);
+                mDataFetchingTask = (DataFetchingTask) new DataFetchingTask(HomeActivity.this, WeatherApi.WEATHER
+                        + "q=" + selectedCity,this);
                 mDataFetchingTask.execute();
 
                 break;
-            case 2:
-                // start new query with coordinate
-                String lat = intent.getStringExtra("lat");
-                String lon = intent.getStringExtra("lon");
-                MyLog.d(TAG, "request code 2");
-                stopQuery();
 
-                break;
         }
     }
 
@@ -241,10 +220,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         MyLog.d(TAG, "startChangeActivity");
         Intent intent = new Intent(this, LocationActivity.class);
         startActivityForResult(intent, 1);
-    }/* urlTask = (DataFetchingTask) new DataFetchingTask(HomeActivity.this, newData, newData.strWeather
-                        + "lat=" + lat + "&lon=" + lon, newData.strForecast
-                        + "lat=" + lat + "&lon=" + lon + "&cnt=14", lat + " " + lon)
-                        .execute();*/
+    }
 
     private void stopQuery() {// stop another query
         if (null != mDataFetchingTask
@@ -271,13 +247,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         }
     }
 
-    public void afterUrlTask() {
-        // Toast.makeText(HomeActivity.this,"Data Fatched"+mAllData.mAllWeatherData.mMain.getTemperature(), Toast.LENGTH_LONG).show();
-//        if (now != null) {
-//            now.select();
-//            bar.setTitle(newData.title);
-//        }
-    }
+
 
     @Override
     public void onResponse() {
@@ -298,14 +268,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         valueHumidity.setText(mAllData.mAllWeatherData.mMain.getHumidity()+getString(R.string.percent));
         valuePresser.setText(mAllData.mAllWeatherData.mMain.getPressure());
         lastUpdateTime.setText("Last update : "+mAllData.mAllWeatherData.getLastUpdateTime());
-
-       /* for (int i = 0; i < 7; i++) {
-           // detailForecastRowView = mInflater.inflate(R.layout.detail_forecast_row, null);
-            ((TextView) detailForecastRowView.findViewWithTag("day"+i)).setText("00-00-00");
-            ((TextView) detailForecastRowView.findViewWithTag("dayMinTemp"+i)).setText("00");
-            ((TextView) detailForecastRowView.findViewWithTag("daymaxTemp"+i)).setText("00");
-        }*/
-
+        iconDetail.setImageResource(mAllData.mAllWeatherData.getIconId());
     }
 
     private void refresh() {
@@ -313,9 +276,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
             MyLog.d(TAG, "get last save data");
             stopQuery();
             String selectedCity = mSettings.getString("selectedCity", null);
-            mDataFetchingTask = (DataFetchingTask) new DataFetchingTask(HomeActivity.this, mAllData, newData.strWeather
-                    + "q=" + selectedCity, newData.strForecast + "q=" + selectedCity
-                    + "&cnt=14", selectedCity, this);
+            mDataFetchingTask = (DataFetchingTask) new DataFetchingTask(HomeActivity.this, WeatherApi.WEATHER
+                    + "q=" + selectedCity,this);
             mDataFetchingTask.execute();
         } else {
             Toast.makeText(this, "Please Select City First", Toast.LENGTH_LONG).show();

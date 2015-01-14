@@ -10,6 +10,7 @@ public class AllWeatherData {
     public Wind mWind;
     private String city;
     private String lastUpdateTime;
+    private int iconId;
 
     public AllWeatherData() {
         mMain = new Main();
@@ -31,5 +32,13 @@ public class AllWeatherData {
 
     public void setLastUpdateTime(String lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
+    }
+
+    public int getIconId() {
+        return iconId;
+    }
+
+    public void setIconId(int iconId) {
+        this.iconId = iconId;
     }
 }

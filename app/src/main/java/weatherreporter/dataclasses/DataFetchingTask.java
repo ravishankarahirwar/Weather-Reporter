@@ -25,30 +25,30 @@ import weatherreporter.managers.RequestManager;
 import weatherreporter.util.JsonParser;
 
 public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
-    AllData allData;
+
     JSONObject weatherJson;
-    JSONObject forecastJson;
-    JsonParser mJsonParser;
-    RequestManager.RequestListner requestListner;
+
+    private JsonParser mJsonParser;
+    private RequestManager.RequestListner requestListner;
+    private RequestManager mRequestManager;
     private String weatherUrl;
     private String forecastUrl;
-    private String selectedCity;
-    private Data data;
+
+
     private HomeActivity contextActivity;
     private String greg = "UrlTask";
-    private DayWeather nowWeather;
-    private DayWeather[] forecastWeather;
 
-    public DataFetchingTask(HomeActivity contextActivity, AllData allData, String weatherUrl,
-                            String forecastUrl, String selectedCity, RequestManager.RequestListner requestListner) {
+
+    public DataFetchingTask(HomeActivity contextActivity, String weatherUrl,
+                            RequestManager.RequestListner requestListner) {
         MyLog.d(greg, "constructor ");
-        this.allData = allData;
-        this.selectedCity = selectedCity;
+
+
         this.weatherUrl = weatherUrl; // weather
-        this.forecastUrl = forecastUrl; // forecast
         this.contextActivity = contextActivity;
         mJsonParser = new JsonParser(contextActivity);
         this.requestListner = requestListner;
+        mRequestManager=new RequestManager();
     }
 
     @Override
@@ -62,9 +62,9 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
         if (isCancelled())
             return null;
 
-        try {// day
+        try {// weather
             MyLog.d(greg, weatherUrl);
-            weatherJson = connectToOpenWeatherServer(weatherUrl);
+            weatherJson = mRequestManager.connectToOpenWeatherServer(weatherUrl);
             mJsonParser.parseWeather(weatherJson);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -79,24 +79,6 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
 
         if (isCancelled())
             return null;
-
-
-
-      /*  try {// forecast
-            MyLog.d(greg, forecastUrl);
-            forecastJson = connectToOpenWeatherServer(forecastUrl);
-            mJsonParser.parsForecast(forecastJson);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return 1;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 2;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return 3;
-        }*/
         return 0;
     }
 
@@ -129,32 +111,17 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
                 data.setNowWeather(nowWeather);*/
 
                 Editor editor = contextActivity.mSettings.edit();
-                editor.putString("selectedCity", selectedCity);
+                editor.putString("selectedCity", HomeActivity.mAllData.mAllWeatherData.getCity());
                 editor.putString("urlStrDay", weatherUrl);
-                //  editor.putString("urlStrForecast", forecastUrl);
                 editor.putString("weatherJson", String.valueOf(weatherJson));
-                // editor.putString("forecastJson", String.valueOf(forecastJson));
                 editor.apply();
                 requestListner.onResponse();
-                // refresh visible activity
-                // contextActivity.afterUrlTask();
-                if (contextActivity.visibleOnScreen)
-                    contextActivity.afterUrlTask();
-                else
-                    contextActivity.showNewData = true;
-                break;
+
         }
         contextActivity.loadAnimationStop();
     }
 
 
-    JSONObject connectToOpenWeatherServer(String apiUrl) throws ParseException,
-            ClientProtocolException, JSONException, IOException {
-        JSONObject jsonObject = new JSONObject(
-                EntityUtils.toString(new DefaultHttpClient().execute(
-                        new HttpGet(apiUrl.replace(" ","%20"))).getEntity()));
-        return jsonObject;
-    }
 
 
 }

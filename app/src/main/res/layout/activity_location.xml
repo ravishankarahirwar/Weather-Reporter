@@ -28,44 +28,16 @@
         android:hint="@string/hint_city"
         android:textColorHint="@color/app_base_color"
         android:inputType="text"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_gravity="center_vertical"
+        android:maxLength="30"
+        />
 
     <Button
         android:id="@+id/btnSearchByCity"
         style="@style/Button"
-
         android:text="@string/search_by_city" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/placeLatitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:textColorHint="@color/app_base_color"
-            android:hint="@string/hint_latitude"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/placeLongitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:textColorHint="@color/app_base_color"
-            android:hint="@string/hint_longitude"
-            android:inputType="numberDecimal" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btnSearchByCrd"
-        style="@style/Button"
-        android:text="@string/search_by_coordinates"
-
-        />
 
 </LinearLayout>
