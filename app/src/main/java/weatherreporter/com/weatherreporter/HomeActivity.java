@@ -41,8 +41,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     MenuItem refreshItem;
     Typeface mHeaderFont, mLabelValueFont;
     private DataFetchingTask mDataFetchingTask = null;
-    private LinearLayout detailForecast;
-    private LayoutInflater mInflater;
+
     private View detailForecastRowView;
     private ImageView iconWindAndPresser, iconSun;
     private JsonParser mJsonParser;
@@ -78,7 +77,11 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     }
 
     private void init() {
-        mInflater = LayoutInflater.from(this);
+
+        iconWindAndPresser = (ImageView) findViewById(R.id.iconWindAndPresser);
+        iconSun = (ImageView) findViewById(R.id.iconSun);
+        iconWindAndPresser.startAnimation(AnimationUtils.loadAnimation(this, R.anim.wind_flow));
+        iconSun.startAnimation(AnimationUtils.loadAnimation(this, R.anim.sun_rise_set));
 
         mHeaderFont = Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf");
         mLabelValueFont = Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf");
@@ -144,28 +147,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
 
 
 
-        iconWindAndPresser = (ImageView) findViewById(R.id.iconWindAndPresser);
-        iconSun = (ImageView) findViewById(R.id.iconSun);
-        detailForecast = (LinearLayout) findViewById(R.id.detailForecast);
 
-        iconWindAndPresser.startAnimation(AnimationUtils.loadAnimation(this, R.anim.wind_flow));
-        iconSun.startAnimation(AnimationUtils.loadAnimation(this, R.anim.sun_rise_set));
 
-        for (int i = 0; i < 7; i++) {
-            detailForecastRowView = mInflater.inflate(R.layout.detail_forecast_row, null);
-            ((TextView) detailForecastRowView.findViewById(R.id.date)).setTypeface(mLabelValueFont);
-            ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setTypeface(mLabelValueFont);
-            ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setTypeface(mLabelValueFont);
-
-            ((TextView) detailForecastRowView.findViewById(R.id.date)).setTag("day"+i);
-            ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setTag("dayMinTemp"+i);
-            ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setTag("daymaxTemp"+i);
-
-            ((TextView) detailForecastRowView.findViewById(R.id.date)).setText("12-01-15");
-            ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setText("16");
-            ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setText("36");
-            detailForecast.addView(detailForecastRowView);
-        }
 
     }
 
