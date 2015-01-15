@@ -19,7 +19,6 @@ public class JsonParser {
     Context mContext;
 
     public JsonParser(Context context) {
-
         this.mContext = context;
     }
 
@@ -29,9 +28,7 @@ public class JsonParser {
         MyLog.d(TAG, "try pars jsonDay: " + weatherJson);
         if (weatherJson.has("main")) {
             MyLog.d(TAG, "try pars weather start");
-
             parsingTodayWeather(weatherJson);
-            // this.nowWeather = nowWeather;
             return;
         }
         throw new JSONException("server error");
@@ -47,7 +44,12 @@ public class JsonParser {
         JSONObject wind = (JSONObject) json.get("wind");
         JSONObject sys = (JSONObject) json.get("sys");
 
-        HomeActivity.mAllData.mAllWeatherData.setCity((String) json.get("name"));
+        if (String.valueOf(json.get("name")).length()>0){
+            HomeActivity.mAllData.mAllWeatherData.setCity((String) json.get("name"));
+        }else{
+            HomeActivity.mAllData.mAllWeatherData.setCity(String.valueOf(sys.get("country")));
+        }
+
         String strLastUpdateTime = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm")
                 .format(new java.util.Date(json.getLong("dt") * 1000));
 
@@ -74,9 +76,7 @@ public class JsonParser {
                 ((Context) mContext).getPackageName());
         HomeActivity.mAllData.mAllWeatherData.setIconId(imageId);
 
-      /*  description = context.getString(((Context) context).getResources().getIdentifier(
-                "d" + String.valueOf(weather2.get("id")), "string",
-                ((Context) context).getPackageName()));*/
+
     }
 
     ;
@@ -93,25 +93,7 @@ public class JsonParser {
 
     ;
 
-    private int windDir(int i) {
-        if (i <= 22 | i > 337)
-            return (R.string.N);
-        if (i > 22 && i <= 67)
-            return (R.string.NE);
-        if (i > 67 && i <= 112)
-            return (R.string.E);
-        if (i > 112 && i <= 157)
-            return (R.string.SE);
-        if (i > 157 && i <= 202)
-            return (R.string.S);
-        if (i > 202 && i <= 247)
-            return (R.string.SW);
-        if (i > 247 && i <= 292)
-            return (R.string.W);
-        if (i > 292 && i <= 337)
-            return (R.string.NW);
-        return (R.string.hello_world);
-    }
+
 
     private String convertMillesecondToTime(long millisecond){
         String time = new java.text.SimpleDateFormat("HH:mm")

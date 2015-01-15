@@ -14,6 +14,7 @@ import android.os.Build;
 
 public class ExceptionHandler implements
 		Thread.UncaughtExceptionHandler {
+    private static final String TAG = "ExceptionHandler";
 	private final Activity myContext;
 	private final String LINE_SEPARATOR = "\n";
 

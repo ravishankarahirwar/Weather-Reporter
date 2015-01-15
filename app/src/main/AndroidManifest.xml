@@ -20,7 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="weatherreporter.com.weatherreporter.LocationActivity"></activity>
+        <activity android:name="weatherreporter.com.weatherreporter.LocationActivity" android:label="@string/location_activity_title"></activity>
+        <activity android:name="weatherreporter.errorhandling.ShowExceptionActivity" android:label="@string/exception_activity_title"></activity>
 
     </application>
 

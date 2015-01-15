@@ -62,4 +62,14 @@
     <item name="date" type="id"/>
     <item name="labelWindDegree" type="id"/>
 
+    <!--      Menu  -->
+    <item type="id" name="feedback" />
+    <item type="id" name="settings" />
+    <item type="id" name="rateapp" />
+    <item type="id" name="shareapp" />
+    <item type="id" name="moreapp" />
+    <item type="id" name="facebookpage" />
+    <item type="id" name="exit" />
+
+
 </resources>

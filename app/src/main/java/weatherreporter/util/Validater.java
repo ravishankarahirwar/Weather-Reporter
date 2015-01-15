@@ -27,22 +27,9 @@ public class Validater {
         }else{
             //no connection
             return false;
-//
+
         }
 
-    }
-    pubic boolean isPlriaceNameValid(String placeName){
-        if(TextUtils.isEmpty(placeName)  ){
-
-            return false;
-        }else if(!placeName.matches(Constants.CITY_NAME_PATTERN)){
-
-            return false;
-        }
-        else if( (placeName.startsWith(" ") || placeName.endsWith(" "))  ){
-            mEditName.setText(name.trim());
-            return;
-        }
     }
 
 }

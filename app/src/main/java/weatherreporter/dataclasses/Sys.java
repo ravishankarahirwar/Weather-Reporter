@@ -4,10 +4,10 @@ package weatherreporter.dataclasses;
  * Created by Ravi on 1/12/2015.
  */
 public class Sys {
-    public String message;
-    public String country;
-    public String sunrise;
-    public String sunset;
+    private String message;
+    private String country;
+    private String sunrise;
+    private String sunset;
 
     public Sys() {
     }

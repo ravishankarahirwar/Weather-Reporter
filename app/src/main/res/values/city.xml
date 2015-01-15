@@ -2,6 +2,29 @@
 <resources>
 
     <string-array name="city">
+
+        <item>India</item>
+        <item>Mumbai,IN</item>
+        <item>Bangalore,IN</item>
+        <item>Chennai,IN</item>
+        <item>Kolkata,IN</item>
+        <item>Bhopal,IN</item>
+        <item>Vidisha,IN</item>
+        <item>Ujjain,IN</item>
+        <item>Indore,IN</item>
+        <item>Kalyan,IN</item>
+        <item>Bhubaneswar,IN</item>
+
+        <item>China,CN</item>
+        <item>Shenzhen,CN</item>
+        <item>Shanghai,CN</item>
+        <item>Beijing,CN</item>
+        <item>Tianjin,CN</item>
+        <item>Guangzhou,CN</item>
+        <item>Dongguan,CN</item>
+        <item>Taipei,CN</item>
+        <item>Hong Kong,CN</item>
+
         <item>Athens,GR</item>
         <item>Baku,AZ</item>
         <item>Copenhagen,DK</item>
@@ -26,6 +49,10 @@
         <item>Warsaw,PL</item>
         <item>Yerevan,AM</item>
         <item>Zagreb,HR</item>
+
+
+
+
     </string-array>
 
 </resources>

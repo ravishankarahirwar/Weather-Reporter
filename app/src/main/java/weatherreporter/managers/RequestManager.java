@@ -21,9 +21,11 @@ public class RequestManager {
 
     public JSONObject connectToOpenWeatherServer(String apiUrl) throws ParseException,
             ClientProtocolException, JSONException, IOException {
+        HttpGet tempHttpGet=new HttpGet(apiUrl.replace(" ", "%20"));
+        tempHttpGet.addHeader("x-api-key","4d3f0bf8d671ac54c3bcbdbe61e98ce5");
         JSONObject jsonObject = new JSONObject(
                 EntityUtils.toString(new DefaultHttpClient().execute(
-                        new HttpGet(apiUrl.replace(" ", "%20"))).getEntity()));
+                        tempHttpGet).getEntity()));
         return jsonObject;
     }
 

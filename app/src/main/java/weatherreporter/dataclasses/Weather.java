@@ -4,8 +4,8 @@ package weatherreporter.dataclasses;
  * Created by acer on 1/12/2015.
  */
 public class Weather {
-    public String main;
-    public String description;
+    private String main;
+    private String description;
 
     public Weather() {
     }

@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 import weatherreporter.com.weatherreporter.HomeActivity;
+import weatherreporter.com.weatherreporter.R;
+import weatherreporter.managers.AlertManager;
 import weatherreporter.managers.RequestManager;
 import weatherreporter.util.JsonParser;
 
@@ -33,7 +35,7 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
     private RequestManager mRequestManager;
     private String weatherUrl;
     private String forecastUrl;
-
+    private AlertManager mAlertManager;
 
     private HomeActivity contextActivity;
     private String greg = "UrlTask";
@@ -43,7 +45,7 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
                             RequestManager.RequestListner requestListner) {
         MyLog.d(greg, "constructor ");
 
-
+        mAlertManager=new AlertManager(contextActivity);
         this.weatherUrl = weatherUrl; // weather
         this.contextActivity = contextActivity;
         mJsonParser = new JsonParser(contextActivity);
@@ -85,15 +87,12 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
     @Override
     protected void onPostExecute(Integer result) {
         switch (result) {
-            // if data was not received
+            /** if data was not received */
             case 2:
-                Toast.makeText(contextActivity, "No data found",
-                        Toast.LENGTH_LONG).show();
+                mAlertManager.showAlert(R.string.no_data_found);
                 break;
             case 1:
-                Toast.makeText(contextActivity,
-                        "No data found",
-                        Toast.LENGTH_LONG).show();
+                mAlertManager.showAlert(R.string.no_data_found);
                 break;
             case 3:
                 Toast.makeText(contextActivity,
@@ -101,14 +100,9 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
                         Toast.LENGTH_LONG).show();
                 break;
 
-            // if data has been successfully received
+            /** if data has been successfully received */
             case 0:
                 // save query string and title to refresh data next time
-                /*data.urlStrDay = weatherUrl;
-                data.urlStrForecast = forecastUrl;
-                data.title = title;
-                data.setForecast(forecastWeather);
-                data.setNowWeather(nowWeather);*/
 
                 Editor editor = contextActivity.mSettings.edit();
                 editor.putString("selectedCity", HomeActivity.mAllData.mAllWeatherData.getCity());

@@ -58,7 +58,7 @@
                 android:background="@drawable/circle"
                 android:gravity="center"
                 android:padding="50dip"
-                android:text="@string/default_temp"
+                android:text="@string/unit_temperature"
                 android:textColor="@android:color/white"
                 android:textSize="30sp" />
 
@@ -72,7 +72,7 @@
                 android:background="@drawable/circle"
                 android:drawableTop="@drawable/ic_temp_min"
                 android:padding="25dip"
-                android:text="16"
+                android:text="@string/unit_temperature"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -86,7 +86,7 @@
                 android:background="@drawable/circle"
                 android:drawableTop="@drawable/ic_temp_max"
                 android:padding="25dip"
-                android:text="36"
+                android:text="@string/unit_temperature"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
         </RelativeLayout>
@@ -150,7 +150,7 @@
                             android:layout_width="0dip"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="speedValue"
+                            android:text="@string/unit_wind"
                             android:textColor="@android:color/white" />
                     </LinearLayout>
 
@@ -172,7 +172,7 @@
                             android:layout_width="0dip"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="valueWindDegree"
+
                             android:textColor="@android:color/white" />
                     </LinearLayout>
                 </LinearLayout>
@@ -301,7 +301,7 @@
                             android:layout_width="0dip"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="humidityValue"
+
                             android:textColor="@android:color/white" />
                     </LinearLayout>
                     <LinearLayout
@@ -323,7 +323,7 @@
                             android:layout_width="0dip"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="humidityValue"
+
                             android:textColor="@android:color/white" />
                     </LinearLayout>
                 </LinearLayout>

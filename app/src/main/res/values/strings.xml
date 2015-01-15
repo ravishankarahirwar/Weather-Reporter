@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">WeatherReporter</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="open_weather_api_key">4d3f0bf8d671ac54c3bcbdbe61e98ce5</string>
+
+    <string name="app_name">Weather Reporter</string>
+    <string name="location_activity_title">Select Location</string>
+
+    <string name="exception_activity_title">Sorry</string>
+
 
     <string name="search_by_city">Search By City</string>
-    <string name="search_by_coordinates">Search By Coordinates</string>
-    <string name="changeCity">Change City</string>
+
+    <string name="changeCity">Change location</string>
     <string name="refresh">Refresh</string>
 
 
@@ -49,11 +53,36 @@
     <string name="sun">Sun</string>
     <string name="forecast">Forecast</string>
     <string name="wind">Wind</string>
-    <string name="city_what">Your City ?</string>
+    <string name="city_what">Your location ?</string>
 
 
     <!--      Hint  -->
-    <string name="hint_city">Enter city here</string>
+    <string name="hint_city">Please enter location</string>
     <string name="hint_latitude">Latitude</string>
     <string name="hint_longitude">Longitude</string>
+    <string name="wait">Please wait!</string>
+
+    <!--      Error  -->
+    <string name="error_exception">Oops!! \nThere was a technical error. Please try again later.</string>
+    <string name="restart">Restart</string>
+    <string name="error_valid_location">Please enter valid place</string>
+    <string name="error_location_cant_empty">Location can\'t be empty</string>
+    <string name="please_connect_to_internet">Please check your Internet connection or try again later!</string>
+    <string name="location_not_found">Please select your location</string>
+    <string name="no_data_found">No data found</string>
+
+    <!--      Menu Label  -->
+    <string name="action_settings">Settings</string>
+    <string name="action_exit">Exit</string>
+    <string name="action_rate_us">Rate us</string>
+    <string name="action_facebook_page">Facebook Page</string>
+
+    <string name="action_rate_app">Rate App</string>
+    <string name="action_share_app">Share APP</string>
+    <string name="action_more_app">More App</string>
+
+    <!--      Unit  -->
+    <string name="unit_temperature">\u2103</string>
+    <string name="unit_wind">mps</string>
+
 </resources>
