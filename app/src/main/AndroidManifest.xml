@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="weatherreporter.com.weatherreporter">
+    package="weatherreporter.com.weatherreporter"
+    android:installLocation="auto"
+
+    >
 
     <uses-sdk
-        android:minSdkVersion="7"
+        android:minSdkVersion="9"
         android:targetSdkVersion="21" />
 
     <application
@@ -11,6 +14,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <!--This meta-data tag is required to use Google Play Services.-->
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name="weatherreporter.com.weatherreporter.HomeActivity"
             android:label="@string/app_name">
@@ -23,8 +30,14 @@
         <activity android:name="weatherreporter.com.weatherreporter.LocationActivity" android:label="@string/location_activity_title"></activity>
         <activity android:name="weatherreporter.errorhandling.ShowExceptionActivity" android:label="@string/exception_activity_title"></activity>
 
+        <!--Include the AdActivity configChanges and theme. -->
+        <activity android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
+
     </application>
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Include required permissions for Google Mobile Ads to run-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 </manifest>

@@ -1,6 +1,9 @@
 package weatherreporter.com.weatherreporter;
 
+import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -11,10 +14,17 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +60,11 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
             titleWind, labelWindSpeed, speedValue, labelWindDegree, valueWindDegree,
             titleSun, valueSunRise, valueSunSet, titleForecast, date;
 
+    private AdView mAdView;
+    private AdRequest adRequestBaner;
+    private InterstitialAd interstitial;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +91,24 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     }
     /** Initializing all variable*/
     private void init() {
+
+
+
+        // Create the Admob Banner.
+        mAdView = (AdView)findViewById(R.id.adView);
+        adRequestBaner= new AdRequest.Builder().build();
+        mAdView.loadAd(adRequestBaner);
+        // Create the interstitial.
+        interstitial = new InterstitialAd(this);
+        interstitial.setAdUnitId(getString(R.string.ad_interstitial));
+
+        // Create ad request.
+        AdRequest adRequest = new AdRequest.Builder().build();
+        // Begin loading your interstitial.
+        interstitial.loadAd(adRequest);
+
+
+
         mSettings = getSharedPreferences(SHAREDPREFERENCE_NAME, Context.MODE_PRIVATE);
         mAllData = new AllData();
         mAlertManager=new AlertManager(this);
@@ -191,6 +224,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         switch (item.getItemId()) {
             case R.id.editCity:
                 if (!refreshAnim) {
+                    displayInterstitial();
                     startChangeActivity();
                 }else{
                     mAlertManager.showAlert(R.string.wait);
@@ -339,5 +373,108 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         }
 
     }
+    /** Called when leaving the activity */
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
 
+    /** Called when returning to the activity */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    /** Called before the activity is destroyed */
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    // Invoke displayInterstitial() when you are ready to display an interstitial.
+    public void displayInterstitial() {
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        try {
+
+
+            if (!mSettings.getBoolean("exit_dialog_nevershow_again", false)) {
+                View checkBoxView = View.inflate(this, R.layout.dialogcheckbox, null);
+                CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                        SharedPreferences.Editor editor = mSettings.edit();
+                        editor.putBoolean("exit_dialog_nevershow_again", isChecked);
+                        editor.commit();
+                    }
+                });
+
+                checkBox.setText(getString(R.string.never_show_again));
+
+                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+
+                alertDialog.setTitle(getString(R.string.exit_alert_title));
+                alertDialog.setIcon(R.drawable.apptheme_rate_star_big_on_holo_light);
+                alertDialog.setMessage(getString(R.string.rate_us_message));
+                alertDialog.setView(checkBoxView);
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        displayInterstitial();
+                    }
+                });
+
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.rate_us), new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("market://details?id=weatherreporter.com.weatherreporter"));
+                        startActivity(intent);
+
+
+                    }
+                });
+
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.exit), new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int id) {
+                        displayInterstitial();
+
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                });
+                alertDialog.show();
+            } else {
+                displayInterstitial();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        } catch (Exception e) {e.printStackTrace();
+        }
+    }
 }

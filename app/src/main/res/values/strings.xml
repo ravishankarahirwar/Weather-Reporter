@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--<string name="banner_ad_unit_id">ca-app-pub-6809957338111953/7113818997</string>-->
+    <string name="banner_ad_unit_id">ca-app-pub-6809957338111953/8955211795</string>
+    <string name="ad_interstitial">ca-app-pub-6809957338111953/1034992197</string>
 
     <string name="open_weather_api_key">4d3f0bf8d671ac54c3bcbdbe61e98ce5</string>
 
@@ -84,5 +87,15 @@
     <!--      Unit  -->
     <string name="unit_temperature">\u2103</string>
     <string name="unit_wind">mps</string>
+
+    <!--   exit alert dialog strings -->
+    <string name="exit_alert_message">Are you sure you want to exit?</string>
+    <string name="exit_alert_title">Rate Weather Reporter!!</string>
+    <string name="never_show_again">Don\'t show again.</string>
+    <string name="exit">Exit</string>
+    <string name="cancel">Cancel</string>
+    <string name="rate_us">Rate us</string>
+    <string name="rate_us_message">If you enjoy using Weather Reporter, please take a few seconds to rate us. Thanks for your supports!</string>
+
 
 </resources>
