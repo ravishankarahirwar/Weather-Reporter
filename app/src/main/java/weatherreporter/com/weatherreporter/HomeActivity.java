@@ -11,9 +11,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -41,7 +43,9 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     private MenuItem refreshItem;
     private Typeface mHeaderFont, mLabelValueFont;
     private DataFetchingTask mDataFetchingTask = null;
-
+    private LinearLayout detailForecast;
+    private LayoutInflater mInflater;
+    private View detailForecastRowView;
     private ImageView iconWindAndPresser, iconSun,iconDetail, actionIconRefresh;
     private JsonParser mJsonParser;
     private TextView cityName,lastUpdateTime, titleNow, tempratureNow, tempratureMinimumNow,
@@ -61,7 +65,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         if (mSettings.contains("selectedCity")) {
             try{
             mJsonParser=new JsonParser(this);
-            JSONObject weatherJsonObject = new JSONObject(mSettings.getString( "weatherJson", null));
+            JSONObject weatherJsonObject = new JSONObject(mSettings.getString( "jsonObjectWeather", null));
             mJsonParser.parseWeather(weatherJsonObject);
             updateUserInterface();
         } catch (JSONException e) {
@@ -76,6 +80,9 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     }
     /** Initializing all variable*/
     private void init() {
+        mInflater = LayoutInflater.from(this);
+        detailForecast = (LinearLayout) findViewById(R.id.detailForecast);
+
         mSettings = getSharedPreferences(SHAREDPREFERENCE_NAME, Context.MODE_PRIVATE);
         mAllData = new AllData();
         mAlertManager=new AlertManager(this);
@@ -249,7 +256,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
                 MyLog.d(TAG, "start newURL request code 1");
                 if(Validater.isInternetAvailable(this)) {
                     mDataFetchingTask = (DataFetchingTask) new DataFetchingTask(HomeActivity.this, WeatherApi.WEATHER
-                            + "q=" + selectedCity, this);
+                            + "q=" + selectedCity, WeatherApi.FORECAST
+                            + "q=" + selectedCity+ "&cnt=14",this);
                     mDataFetchingTask.execute();
                 }else{
                     mAlertManager.showAlert(R.string.please_connect_to_internet);
@@ -315,6 +323,23 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
             valuePresser.setText(mAllData.mAllWeatherData.mMain.getPressure());
             lastUpdateTime.setText("Last update : " + mAllData.mAllWeatherData.getLastUpdateTime());
             iconDetail.setImageResource(mAllData.mAllWeatherData.getIconId());
+
+            for (int i = 0; i < 7; i++) {
+                detailForecastRowView = mInflater.inflate(R.layout.detail_forecast_row, null);
+                ((TextView) detailForecastRowView.findViewById(R.id.date)).setTypeface(mLabelValueFont);
+                ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setTypeface(mLabelValueFont);
+                ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setTypeface(mLabelValueFont);
+
+                ((TextView) detailForecastRowView.findViewById(R.id.date)).setTag("day"+i);
+                ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setTag("dayMinTemp"+i);
+                ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setTag("daymaxTemp"+i);
+
+                ((TextView) detailForecastRowView.findViewById(R.id.date)).setText("12-01-15");
+                ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setText("16");
+                ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setText("36");
+                detailForecast.addView(detailForecastRowView);
+            }
+
         }else{
             mAlertManager.showAlert(R.string.no_data_found);
         }
@@ -328,7 +353,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
 
             if(Validater.isInternetAvailable(this)) {
                 mDataFetchingTask = (DataFetchingTask) new DataFetchingTask(HomeActivity.this, WeatherApi.WEATHER
-                        + "q=" + selectedCity, this);
+                        + "q=" + selectedCity, WeatherApi.FORECAST
+                        + "q=" + selectedCity+ "&cnt=14",this);
                 mDataFetchingTask.execute();
             }else{
                 mAlertManager.showAlert(R.string.please_connect_to_internet);

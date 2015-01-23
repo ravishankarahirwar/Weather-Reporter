@@ -6,35 +6,20 @@ import java.util.ArrayList;
  * Created by Ravi on 1/12/2015.
  */
 public class AllForecastData {
-    public String dt;
-    public ArrayList<AllWeatherData> list;
+
+    public ArrayList<ForecastData> list;
 
     public AllForecastData() {
-        list = new ArrayList<AllWeatherData>();
+        list = new ArrayList<ForecastData>();
     }
 
-    /**
-     * @param date :
-     */
 
-    public AllForecastData(String date, ArrayList<AllWeatherData> list) {
-        this.dt = dt;
-        this.list = list;
-    }
 
-    public String getDt() {
-        return dt;
-    }
-
-    public void setDate(String date) {
-        this.dt = dt;
-    }
-
-    public ArrayList<AllWeatherData> getList() {
+    public ArrayList<ForecastData> getList() {
         return list;
     }
 
-    public void setList(ArrayList<AllWeatherData> list) {
+    public void setList(ArrayList<ForecastData> list) {
         this.list = list;
     }
 }
