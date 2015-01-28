@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/app_base_color"
+    >
+
+    <ImageView
+        android:id="@id/iconId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/w_01n"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        ></ImageView>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_toRightOf="@id/iconId"
+
+       android:layout_marginRight="10dp"
+        android:textColor="@android:color/white"
+       />
+
+    <TextView
+        android:id="@id/morningTemprature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:layout_below="@id/iconId"
+        android:textColor="@android:color/white"
+        />
+    <TextView
+        android:id="@id/dayTemprature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/iconId"
+        android:layout_marginRight="10dp"
+        android:textColor="@android:color/white"
+        />
+    <TextView
+        android:id="@id/eveningdayTemprature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:layout_below="@id/morningTemprature"
+        android:textColor="@android:color/white"
+        />
+    <TextView
+        android:id="@id/nightdayTemprature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/dayTemprature"
+        android:layout_marginRight="10dp"
+        android:textColor="@android:color/white"
+        />
+
+</RelativeLayout>
