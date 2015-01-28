@@ -84,7 +84,7 @@ public class JsonParser {
         if (jsonObjectForecast.has("cnt")) {
             MyLog.d(TAG, "try pars forecast start");
             int d = jsonObjectForecast.getInt("cnt");
-
+            HomeActivity.mAllData.mAllForecastData.getList().clear();
             JSONArray list = jsonObjectForecast.getJSONArray("list");
             for (int i = 0; i <= d - 1; i++) {
                 JSONObject dayForecast = (JSONObject) list.get(i);
@@ -108,10 +108,11 @@ public class JsonParser {
         JSONObject weather2 = (JSONObject) weather.get(0);
         JSONObject temp = (JSONObject) json.get("temp");
 
-        tForecastData.dt = new java.text.SimpleDateFormat("dd.MM.yyyy")
+        tForecastData.dt = new java.text.SimpleDateFormat("dd.MM.yy")
                 .format(new java.util.Date(json.getLong("dt") * 1000));
 
-
+        tForecastData.setMinimumTemperature(temperatureEdit(temp.getDouble("min")));
+        tForecastData.setMaximumTemperature(temperatureEdit(temp.getDouble("max")));
         tForecastData.day = temperatureEdit(temp.getDouble("day"));
         tForecastData.night = temperatureEdit(temp.getDouble("night"));
         tForecastData.morn = temperatureEdit(temp.getDouble("morn"));
@@ -131,9 +132,7 @@ public class JsonParser {
                 "w_" + String.valueOf(weather2.get("icon")), "drawable",
                 ((Context) context).getPackageName());
 
-       /* tForecastData.description = context.getString(((Context) context).getResources().getIdentifier(
-                "d" + String.valueOf(weather2.get("id")), "string",
-                ((Context) context).getPackageName()));*/
+       tForecastData.setDescription(String.valueOf(weather2.get("description")));
 
 return tForecastData;
     }

@@ -17,6 +17,7 @@ public class ForecastData extends Main{
     public String eve;
     public String morn;
 
+
     public String main;
     public String description;
 

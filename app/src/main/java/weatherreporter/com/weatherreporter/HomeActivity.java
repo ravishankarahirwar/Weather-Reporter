@@ -14,16 +14,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import weatherreporter.errorhandling.ExceptionHandler;
 import weatherreporter.managers.AlertManager;
 import weatherreporter.util.Constants;
+import weatherreporter.util.ExpandableListAdapter;
 import weatherreporter.util.JsonParser;
 import weatherreporter.dataclasses.AllData;
 import weatherreporter.dataclasses.DataFetchingTask;
@@ -32,8 +39,7 @@ import weatherreporter.managers.RequestManager;
 import weatherreporter.util.Validater;
 import weatherreporter.util.WeatherApi;
 
-
-public class HomeActivity extends ActionBarActivity implements RequestManager.RequestListner {
+public class HomeActivity extends ActionBarActivity implements RequestManager.RequestListner ,ExpandableListView.OnGroupExpandListener,ExpandableListView.OnGroupCollapseListener {
     private static final String TAG = "HomeActivity";
     public static final String SHAREDPREFERENCE_NAME="LAST_DATA";
     public static AllData mAllData;
@@ -54,6 +60,13 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
             titleWind, labelWindSpeed, speedValue, labelWindDegree, valueWindDegree,
             titleSun, valueSunRise, valueSunSet, titleForecast, date;
 
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
+    ScrollView scrollView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +80,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
             mJsonParser=new JsonParser(this);
             JSONObject weatherJsonObject = new JSONObject(mSettings.getString( "jsonObjectWeather", null));
             mJsonParser.parseWeather(weatherJsonObject);
+                JSONObject jsonObjectForecast = new JSONObject(mSettings.getString( "jsonObjectForecast", null));
+                mJsonParser.parsForcast(jsonObjectForecast);
             updateUserInterface();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -80,12 +95,27 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     }
     /** Initializing all variable*/
     private void init() {
+
+
+        // get the listview
+       expListView = (ExpandableListView) findViewById(R.id.lvExp);
+
+       /// preparing list data
+        prepareListData();
+
+
+
+
         mInflater = LayoutInflater.from(this);
         detailForecast = (LinearLayout) findViewById(R.id.detailForecast);
 
         mSettings = getSharedPreferences(SHAREDPREFERENCE_NAME, Context.MODE_PRIVATE);
         mAllData = new AllData();
         mAlertManager=new AlertManager(this);
+        listAdapter = new ExpandableListAdapter(this, mAllData.mAllForecastData.getList());
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
 
         iconWindAndPresser = (ImageView) findViewById(R.id.iconWindAndPresser);
         iconSun = (ImageView) findViewById(R.id.iconSun);
@@ -324,22 +354,45 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
             lastUpdateTime.setText("Last update : " + mAllData.mAllWeatherData.getLastUpdateTime());
             iconDetail.setImageResource(mAllData.mAllWeatherData.getIconId());
 
-            for (int i = 0; i < 7; i++) {
-                detailForecastRowView = mInflater.inflate(R.layout.detail_forecast_row, null);
-                ((TextView) detailForecastRowView.findViewById(R.id.date)).setTypeface(mLabelValueFont);
-                ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setTypeface(mLabelValueFont);
-                ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setTypeface(mLabelValueFont);
+           /* List<String> nowShowing = new ArrayList<String>();
+            nowShowing.add("The Conjuring");
+            nowShowing.add("Despicable Me 2");
+            nowShowing.add("Turbo");
+            nowShowing.add("Grown Ups 2");
+            nowShowing.add("Red 2");
+            nowShowing.add("The Wolverine");*/
 
-                ((TextView) detailForecastRowView.findViewById(R.id.date)).setTag("day"+i);
-                ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setTag("dayMinTemp"+i);
-                ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setTag("daymaxTemp"+i);
+           /* for (int i = 0; i < mAllData.mAllForecastData.getList().size(); i++) {
+                listDataHeader.add(mAllData.mAllForecastData.list.get(i).dt);
+                listDataChild.put(listDataHeader.get(i), nowShowing);
 
-                ((TextView) detailForecastRowView.findViewById(R.id.date)).setText("12-01-15");
-                ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setText("16");
-                ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setText("36");
-                detailForecast.addView(detailForecastRowView);
-            }
+            }*/
+            ((ExpandableListAdapter)expListView.getExpandableListAdapter()).notifyDataSetChanged();
+            tempratureMinimumNow.setText(mAllData.mAllForecastData.list.get(0).getMinimumTemperature());
+            tempratureMaximumNow.setText(mAllData.mAllForecastData.list.get(0).getMaximumTemperature());
 
+           // detailForecast.removeAllViews();
+           /* if(!mAllData.mAllForecastData.getList().isEmpty()) {
+                tempratureMinimumNow.setText(mAllData.mAllForecastData.list.get(0).getMinimumTemperature());
+                tempratureMaximumNow.setText(mAllData.mAllForecastData.list.get(0).getMaximumTemperature());
+                for (int i = 0; i < mAllData.mAllForecastData.getList().size(); i++) {
+                    detailForecastRowView = mInflater.inflate(R.layout.detail_forecast_row, null);
+                    ((TextView) detailForecastRowView.findViewById(R.id.date)).setTypeface(mLabelValueFont);
+                    ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setTypeface(mLabelValueFont);
+                    ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setTypeface(mLabelValueFont);
+
+                    ((TextView) detailForecastRowView.findViewById(R.id.date)).setTag("day" + i);
+                    ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setTag("dayMinTemp" + i);
+                    ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setTag("daymaxTemp" + i);
+
+                    ((TextView) detailForecastRowView.findViewById(R.id.date)).setText(mAllData.mAllForecastData.list.get(i).dt);
+                    //((TextView) detailForecastRowView.findViewById(R.id.date)).setText("Day"+1);
+                    ((TextView) detailForecastRowView.findViewById(R.id.minTemp)).setText(mAllData.mAllForecastData.list.get(i).getMinimumTemperature());
+                    ((TextView) detailForecastRowView.findViewById(R.id.maxTemp)).setText(mAllData.mAllForecastData.list.get(i).getMaximumTemperature());
+                    detailForecast.addView(detailForecastRowView);
+                }
+           }
+*/
         }else{
             mAlertManager.showAlert(R.string.no_data_found);
         }
@@ -364,6 +417,65 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
             return;
         }
 
+    }
+
+    /*
+     * Preparing the list data
+     */
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+
+      // Adding child data
+      /*  listDataHeader.add("Top 250");
+        listDataHeader.add("Now Showing");
+        listDataHeader.add("Coming Soon..");
+
+        // Adding child data
+        List<String> top250 = new ArrayList<String>();
+        top250.add("The Shawshank Redemption");
+        top250.add("The Godfather");
+        top250.add("The Godfather: Part II");
+        top250.add("Pulp Fiction");
+        top250.add("The Good, the Bad and the Ugly");
+        top250.add("The Dark Knight");
+        top250.add("12 Angry Men");
+
+        List<String> nowShowing = new ArrayList<String>();
+        nowShowing.add("The Conjuring");
+        nowShowing.add("Despicable Me 2");
+        nowShowing.add("Turbo");
+        nowShowing.add("Grown Ups 2");
+        nowShowing.add("Red 2");
+        nowShowing.add("The Wolverine");
+
+        List<String> comingSoon = new ArrayList<String>();
+        comingSoon.add("2 Guns");
+        comingSoon.add("The Smurfs 2");
+        comingSoon.add("The Spectacular Now");
+        comingSoon.add("The Canyons");
+        comingSoon.add("Europa Report");
+
+        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), nowShowing);
+        listDataChild.put(listDataHeader.get(2), comingSoon);*/
+    }
+    @Override
+    public void onGroupExpand(int groupPosition) {
+        LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) expListView.getLayoutParams();
+        param.height = (3 * expListView.getHeight());
+        expListView.setLayoutParams(param);
+        expListView.refreshDrawableState();
+        scrollView.refreshDrawableState();
+    }
+
+    @Override
+    public void onGroupCollapse(int groupPosition) {
+        LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) expListView.getLayoutParams();
+        param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        expListView.setLayoutParams(param);
+        expListView.refreshDrawableState();
+        scrollView.refreshDrawableState();
     }
 
 }
