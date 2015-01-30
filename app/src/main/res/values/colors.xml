@@ -7,4 +7,9 @@
     <color name="button_normal">#E6006064</color>
     <color name="button_focus">#1A237E</color>
 
+    <color name="alert">#CC0000</color>
+    <color name="confirm">#FF8800</color>
+    <color name="info">#C91F43</color>
+
+
 </resources>

@@ -56,6 +56,8 @@ activity#weatherreporter.com.weatherreporter.HomeActivity
 ADDED from AndroidManifest.xml:21:9
 	android:label
 		ADDED from AndroidManifest.xml:23:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:23:46
 	android:name
 		ADDED from AndroidManifest.xml:22:13
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER

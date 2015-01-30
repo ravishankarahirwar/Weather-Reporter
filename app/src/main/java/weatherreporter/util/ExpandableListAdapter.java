@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +27,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
     public ArrayList<ForecastData> listForecastData;
-
+    Typeface mHeaderFont;
     public ExpandableListAdapter(Context context, ArrayList<ForecastData> list) {
         this._context = context;
-       /* this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;*/
+        mHeaderFont = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
         listForecastData=list;
     }
 
@@ -59,22 +59,34 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.iconId);
         iconId.setImageResource(childText.imageId);
 
+
+
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.description);
-        txtListChild.setText(childText.description);
+        txtListChild.setText(childText.description.substring(0,1).toUpperCase() + childText.description.substring(1));
+        txtListChild.setTypeface(mHeaderFont);
+
 
         TextView morningTemprature = (TextView) convertView
                 .findViewById(R.id.morningTemprature);
-        morningTemprature.setText("Morning : "+childText.morn);
+        morningTemprature.setTypeface(mHeaderFont);
+        morningTemprature.setText("Morning : "+childText.morn+_context.getString(R.string.unit_temperature));
+
+
         TextView dayTemprature = (TextView) convertView
                 .findViewById(R.id.dayTemprature);
-        dayTemprature.setText("Day : "+childText.day);
+        dayTemprature.setText("Day : "+childText.day+_context.getString(R.string.unit_temperature));
+        dayTemprature.setTypeface(mHeaderFont);
+
         TextView eveningdayTemprature = (TextView) convertView
                 .findViewById(R.id.eveningdayTemprature);
-        eveningdayTemprature.setText("Evening : "+childText.eve);
+        eveningdayTemprature.setText("Evening : "+childText.eve+_context.getString(R.string.unit_temperature));
+        eveningdayTemprature.setTypeface(mHeaderFont);
+
         TextView nightdayTemprature = (TextView) convertView
                 .findViewById(R.id.nightdayTemprature);
-        nightdayTemprature.setText("Night : "+childText.night);
+        nightdayTemprature.setText("Night : "+childText.night+_context.getString(R.string.unit_temperature));
+        nightdayTemprature.setTypeface(mHeaderFont);
 
 
 
@@ -117,16 +129,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle.dt);
+        lblListHeader.setTypeface(mHeaderFont);
+
 
         TextView minTemp = (TextView) convertView
                 .findViewById(R.id.minTemp);
         minTemp.setTypeface(null, Typeface.BOLD);
-        minTemp.setText(headerTitle.getMinimumTemperature());
+        minTemp.setText(headerTitle.getMinimumTemperature()+_context.getString(R.string.unit_temperature));
+        minTemp.setTypeface(mHeaderFont);
 
         TextView maxTemp = (TextView) convertView
                 .findViewById(R.id.maxTemp);
         maxTemp.setTypeface(null, Typeface.BOLD);
-        maxTemp.setText(headerTitle.getMaximumTemperature());
+        maxTemp.setText(headerTitle.getMaximumTemperature()+_context.getString(R.string.unit_temperature));
+        maxTemp.setTypeface(mHeaderFont);
 
 
 

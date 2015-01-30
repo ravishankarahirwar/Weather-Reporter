@@ -20,7 +20,7 @@
 
         <activity
             android:name="weatherreporter.com.weatherreporter.HomeActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

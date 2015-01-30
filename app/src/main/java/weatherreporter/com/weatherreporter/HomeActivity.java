@@ -41,6 +41,7 @@ import java.util.List;
 
 import weatherreporter.errorhandling.ExceptionHandler;
 import weatherreporter.managers.AlertManager;
+import weatherreporter.util.AppMessage;
 import weatherreporter.util.Constants;
 import weatherreporter.util.ExpandableListAdapter;
 import weatherreporter.util.JsonParser;
@@ -51,7 +52,7 @@ import weatherreporter.managers.RequestManager;
 import weatherreporter.util.Validater;
 import weatherreporter.util.WeatherApi;
 
-public class HomeActivity extends ActionBarActivity implements RequestManager.RequestListner ,ExpandableListView.OnGroupExpandListener,ExpandableListView.OnGroupCollapseListener {
+public class HomeActivity extends ActionBarActivity implements RequestManager.RequestListner  {
     private static final String TAG = "HomeActivity";
     public static final String SHAREDPREFERENCE_NAME="LAST_DATA";
     public static AllData mAllData;
@@ -61,9 +62,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     private MenuItem refreshItem;
     private Typeface mHeaderFont, mLabelValueFont;
     private DataFetchingTask mDataFetchingTask = null;
-    private LinearLayout detailForecast;
-    private LayoutInflater mInflater;
-    private View detailForecastRowView;
+
     private ImageView iconWindAndPresser, iconSun,iconDetail, actionIconRefresh;
     private JsonParser mJsonParser;
     private TextView cityName,lastUpdateTime, titleNow, tempratureNow, tempratureMinimumNow,
@@ -81,7 +80,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-    ScrollView scrollView;
+
 
 
 
@@ -140,11 +139,6 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         prepareListData();
 
 
-
-
-        mInflater = LayoutInflater.from(this);
-        detailForecast = (LinearLayout) findViewById(R.id.detailForecast);
-
         mSettings = getSharedPreferences(SHAREDPREFERENCE_NAME, Context.MODE_PRIVATE);
         mAllData = new AllData();
         mAlertManager=new AlertManager(this);
@@ -183,29 +177,29 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         date = (TextView) findViewById(R.id.date);
 
         cityName.setTypeface(mHeaderFont);
-        lastUpdateTime.setTypeface(mLabelValueFont);
+        lastUpdateTime.setTypeface(mHeaderFont);
         titleNow.setTypeface(mHeaderFont);
-        tempratureNow.setTypeface(mLabelValueFont);
-        tempratureMinimumNow.setTypeface(mLabelValueFont);
-        tempratureMaximumNow.setTypeface(mLabelValueFont);
+        tempratureNow.setTypeface(mHeaderFont);
+        tempratureMinimumNow.setTypeface(mHeaderFont);
+        tempratureMaximumNow.setTypeface(mHeaderFont);
         titleDetail.setTypeface(mHeaderFont);
 
-        labelHumidity.setTypeface(mLabelValueFont);
-        valueHumidity.setTypeface(mLabelValueFont);
+        labelHumidity.setTypeface(mHeaderFont);
+        valueHumidity.setTypeface(mHeaderFont);
 
-        labelPresser.setTypeface(mLabelValueFont);
-        valuePresser.setTypeface(mLabelValueFont);
+        labelPresser.setTypeface(mHeaderFont);
+        valuePresser.setTypeface(mHeaderFont);
 
         titleWind.setTypeface(mHeaderFont);
-        labelWindSpeed.setTypeface(mLabelValueFont);
-        speedValue.setTypeface(mLabelValueFont);
-        labelWindDegree.setTypeface(mLabelValueFont);
-        valueWindDegree.setTypeface(mLabelValueFont);
+        labelWindSpeed.setTypeface(mHeaderFont);
+        speedValue.setTypeface(mHeaderFont);
+        labelWindDegree.setTypeface(mHeaderFont);
+        valueWindDegree.setTypeface(mHeaderFont);
         titleSun.setTypeface(mHeaderFont);
-        valueSunRise.setTypeface(mLabelValueFont);
-        valueSunSet.setTypeface(mLabelValueFont);
+        valueSunRise.setTypeface(mHeaderFont);
+        valueSunSet.setTypeface(mHeaderFont);
         titleForecast.setTypeface(mHeaderFont);
-        date.setTypeface(mLabelValueFont);
+        date.setTypeface(mHeaderFont);
 
         cityName.setText(R.string.city_what);
         titleNow.setText(R.string.now);
@@ -221,6 +215,18 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
 
         iconWindAndPresser.startAnimation(AnimationUtils.loadAnimation(this, R.anim.wind_flow));
         iconSun.startAnimation(AnimationUtils.loadAnimation(this, R.anim.sun_rise_set));
+
+        cityName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!refreshAnim) {
+                    displayInterstitial();
+                    startChangeActivity();
+                }else{
+                    mAlertManager.showAlert(R.string.wait);
+                }
+            }
+        });
     }
 
     @Override
@@ -377,8 +383,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     private void updateUserInterface() {
         if(mAllData!=null) {
             tempratureNow.setText(mAllData.mAllWeatherData.mMain.getTemperature() + getString(R.string.unit_temperature));
-            tempratureMinimumNow.setText(mAllData.mAllWeatherData.mMain.getMinimumTemperature() + getString(R.string.unit_temperature));
-            tempratureMaximumNow.setText(mAllData.mAllWeatherData.mMain.getMaximumTemperature() + getString(R.string.unit_temperature));
+//            tempratureMinimumNow.setText(mAllData.mAllWeatherData.mMain.getMinimumTemperature() + getString(R.string.unit_temperature));
+//            tempratureMaximumNow.setText(mAllData.mAllWeatherData.mMain.getMaximumTemperature() + getString(R.string.unit_temperature));
             cityName.setText(mAllData.mAllWeatherData.getCity());
             speedValue.setText(mAllData.mAllWeatherData.mWind.getSpeed() + getString(R.string.unit_wind));
             valueWindDegree.setText(mAllData.mAllWeatherData.mWind.getDeg());
@@ -394,8 +400,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
 
             if(!mAllData.mAllForecastData.getList().isEmpty()) {
                 ((ExpandableListAdapter) expListView.getExpandableListAdapter()).notifyDataSetChanged();
-                tempratureMinimumNow.setText(mAllData.mAllForecastData.list.get(0).getMinimumTemperature());
-                tempratureMaximumNow.setText(mAllData.mAllForecastData.list.get(0).getMaximumTemperature());
+                tempratureMinimumNow.setText(mAllData.mAllForecastData.list.get(0).getMinimumTemperature()+ getString(R.string.unit_temperature));
+                tempratureMaximumNow.setText(mAllData.mAllForecastData.list.get(0).getMaximumTemperature()+ getString(R.string.unit_temperature));
             }
 
 
@@ -416,7 +422,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
                         + "q=" + selectedCity+ "&cnt=14",this);
                 mDataFetchingTask.execute();
             }else{
-                mAlertManager.showAlert(R.string.please_connect_to_internet);
+                AppMessage.makeText(this, getString(R.string.please_connect_to_internet)).show();
+              //  mAlertManager.showAlert(R.string.please_connect_to_internet);
             }
         } else {
             mAlertManager.showAlert(R.string.location_not_found);
@@ -536,56 +543,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
 
-      // Adding child data
-      /*  listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
 
-        // Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
-
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
-
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
-
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);*/
-    }
-    @Override
-    public void onGroupExpand(int groupPosition) {
-        LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) expListView.getLayoutParams();
-        param.height = (3 * expListView.getHeight());
-        expListView.setLayoutParams(param);
-        expListView.refreshDrawableState();
-        scrollView.refreshDrawableState();
-    }
-
-    @Override
-    public void onGroupCollapse(int groupPosition) {
-        LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) expListView.getLayoutParams();
-        param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        expListView.setLayoutParams(param);
-        expListView.refreshDrawableState();
-        scrollView.refreshDrawableState();
     }
 
 }

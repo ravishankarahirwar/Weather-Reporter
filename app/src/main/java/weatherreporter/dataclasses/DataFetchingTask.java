@@ -19,6 +19,7 @@ import weatherreporter.com.weatherreporter.HomeActivity;
 import weatherreporter.com.weatherreporter.R;
 import weatherreporter.managers.AlertManager;
 import weatherreporter.managers.RequestManager;
+import weatherreporter.util.AppMessage;
 import weatherreporter.util.JsonParser;
 
 public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
@@ -102,10 +103,11 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
         switch (result) {
             /** if data was not received */
             case 2:
-                mAlertManager.showAlert(R.string.no_data_found);
+                AppMessage.makeText(contextActivity,contextActivity.getString(R.string.no_data_found)).show();
+               // mAlertManager.showAlert(R.string.no_data_found);
                 break;
             case 1:
-                mAlertManager.showAlert(R.string.no_data_found);
+                AppMessage.makeText(contextActivity,contextActivity.getString(R.string.no_data_found)).show();
                 break;
             case 3:
                 Toast.makeText(contextActivity,
