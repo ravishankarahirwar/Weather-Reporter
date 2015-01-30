@@ -1,7 +1,7 @@
 package weatherreporter.dataclasses;
 
 /**
- * Created by acer on 1/12/2015.
+ * Created by Ravi on 1/12/2015.
  */
 
 
@@ -10,15 +10,10 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import weatherreporter.com.weatherreporter.HomeActivity;
 import weatherreporter.com.weatherreporter.R;
@@ -27,26 +22,26 @@ import weatherreporter.managers.RequestManager;
 import weatherreporter.util.JsonParser;
 
 public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
-
-    JSONObject weatherJson;
+    private static final String TAG = "DataFetchingTask";
+    JSONObject jsonObjectWeather,jsonObjectForecast;
 
     private JsonParser mJsonParser;
     private RequestManager.RequestListner requestListner;
     private RequestManager mRequestManager;
-    private String weatherUrl;
-    private String forecastUrl;
+    private String mUrlWeather,mUrlForcast;
     private AlertManager mAlertManager;
 
     private HomeActivity contextActivity;
-    private String greg = "UrlTask";
 
 
-    public DataFetchingTask(HomeActivity contextActivity, String weatherUrl,
+
+    public DataFetchingTask(HomeActivity contextActivity, String urlWeather,String urlForcast,
                             RequestManager.RequestListner requestListner) {
-        MyLog.d(greg, "constructor ");
+        MyLog.d(TAG, "constructor ");
 
         mAlertManager=new AlertManager(contextActivity);
-        this.weatherUrl = weatherUrl; // weather
+        this.mUrlWeather = urlWeather; // weather
+        this.mUrlForcast = urlForcast; // weather
         this.contextActivity = contextActivity;
         mJsonParser = new JsonParser(contextActivity);
         this.requestListner = requestListner;
@@ -65,9 +60,9 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
             return null;
 
         try {// weather
-            MyLog.d(greg, weatherUrl);
-            weatherJson = mRequestManager.connectToOpenWeatherServer(weatherUrl);
-            mJsonParser.parseWeather(weatherJson);
+            MyLog.d(TAG, mUrlWeather);
+            jsonObjectWeather = mRequestManager.connectToOpenWeatherServer(mUrlWeather);
+            mJsonParser.parseWeather(jsonObjectWeather);
         } catch (JSONException e) {
             e.printStackTrace();
             return 1;
@@ -79,8 +74,26 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
             return 3;
         }
 
+
         if (isCancelled())
             return null;
+        try {// forecast
+            MyLog.d(TAG, mUrlForcast);
+            jsonObjectForecast = mRequestManager.connectToOpenWeatherServer(mUrlForcast);
+            mJsonParser.parsForcast(jsonObjectForecast);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return 1;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 2;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 3;
+        }
+
+
         return 0;
     }
 
@@ -106,8 +119,10 @@ public class DataFetchingTask extends AsyncTask<Void, Integer, Integer> {
 
                 Editor editor = contextActivity.mSettings.edit();
                 editor.putString("selectedCity", HomeActivity.mAllData.mAllWeatherData.getCity());
-                editor.putString("urlStrDay", weatherUrl);
-                editor.putString("weatherJson", String.valueOf(weatherJson));
+                editor.putString("urlWeather", mUrlWeather);
+                editor.putString("jsonObjectWeather", String.valueOf(jsonObjectWeather));
+                editor.putString("urlForecast", mUrlWeather);
+                editor.putString("jsonObjectForecast", String.valueOf(jsonObjectForecast));
                 editor.apply();
                 requestListner.onResponse();
 

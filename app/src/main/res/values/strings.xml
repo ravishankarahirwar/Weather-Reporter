@@ -88,6 +88,7 @@
     <string name="unit_temperature">\u2103</string>
     <string name="unit_wind">mps</string>
 
+
     <!--   exit alert dialog strings -->
     <string name="exit_alert_message">Are you sure you want to exit?</string>
     <string name="exit_alert_title">Rate Weather Reporter!!</string>
@@ -96,6 +97,12 @@
     <string name="cancel">Cancel</string>
     <string name="rate_us">Rate us</string>
     <string name="rate_us_message">If you enjoy using Weather Reporter, please take a few seconds to rate us. Thanks for your supports!</string>
+
+
+    <string name="morning">Morning</string>
+    <string name="day">Day</string>
+    <string name="evening">Evening</string>
+    <string name="night">Night</string>
 
 
 </resources>

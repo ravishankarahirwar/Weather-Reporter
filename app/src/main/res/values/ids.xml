@@ -62,6 +62,18 @@
     <item name="date" type="id"/>
     <item name="labelWindDegree" type="id"/>
 
+
+    <item name="minTemp" type="id"/>
+    <item name="maxTemp" type="id"/>
+    <item name="headerForecast" type="id"/>
+    <item name="morningTemprature"  type="id"/>
+    <item name="dayTemprature"  type="id"/>
+    <item name="eveningdayTemprature"  type="id"/>
+    <item name="nightdayTemprature"  type="id"/>
+    <item name="description"  type="id"/>
+    <item name="iconId"  type="id"/>
+
+
     <!--      Menu  -->
     <item type="id" name="feedback" />
     <item type="id" name="settings" />

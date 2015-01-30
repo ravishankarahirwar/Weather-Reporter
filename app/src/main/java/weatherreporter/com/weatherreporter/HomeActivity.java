@@ -17,9 +17,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+
+import android.widget.ExpandableListView;
+
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -29,9 +35,14 @@ import com.google.android.gms.ads.InterstitialAd;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import weatherreporter.errorhandling.ExceptionHandler;
 import weatherreporter.managers.AlertManager;
 import weatherreporter.util.Constants;
+import weatherreporter.util.ExpandableListAdapter;
 import weatherreporter.util.JsonParser;
 import weatherreporter.dataclasses.AllData;
 import weatherreporter.dataclasses.DataFetchingTask;
@@ -40,8 +51,7 @@ import weatherreporter.managers.RequestManager;
 import weatherreporter.util.Validater;
 import weatherreporter.util.WeatherApi;
 
-
-public class HomeActivity extends ActionBarActivity implements RequestManager.RequestListner {
+public class HomeActivity extends ActionBarActivity implements RequestManager.RequestListner ,ExpandableListView.OnGroupExpandListener,ExpandableListView.OnGroupCollapseListener {
     private static final String TAG = "HomeActivity";
     public static final String SHAREDPREFERENCE_NAME="LAST_DATA";
     public static AllData mAllData;
@@ -51,7 +61,9 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     private MenuItem refreshItem;
     private Typeface mHeaderFont, mLabelValueFont;
     private DataFetchingTask mDataFetchingTask = null;
-
+    private LinearLayout detailForecast;
+    private LayoutInflater mInflater;
+    private View detailForecastRowView;
     private ImageView iconWindAndPresser, iconSun,iconDetail, actionIconRefresh;
     private JsonParser mJsonParser;
     private TextView cityName,lastUpdateTime, titleNow, tempratureNow, tempratureMinimumNow,
@@ -60,9 +72,17 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
             titleWind, labelWindSpeed, speedValue, labelWindDegree, valueWindDegree,
             titleSun, valueSunRise, valueSunSet, titleForecast, date;
 
+
     private AdView mAdView;
     private AdRequest adRequestBaner;
     private InterstitialAd interstitial;
+
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
+    ScrollView scrollView;
+
 
 
     @Override
@@ -76,8 +96,10 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         if (mSettings.contains("selectedCity")) {
             try{
             mJsonParser=new JsonParser(this);
-            JSONObject weatherJsonObject = new JSONObject(mSettings.getString( "weatherJson", null));
+            JSONObject weatherJsonObject = new JSONObject(mSettings.getString( "jsonObjectWeather", null));
             mJsonParser.parseWeather(weatherJsonObject);
+                JSONObject jsonObjectForecast = new JSONObject(mSettings.getString( "jsonObjectForecast", null));
+                mJsonParser.parsForcast(jsonObjectForecast);
             updateUserInterface();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -91,6 +113,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
     }
     /** Initializing all variable*/
     private void init() {
+
 
 
 
@@ -109,9 +132,26 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
 
 
 
+
+        // get the listview
+       expListView = (ExpandableListView) findViewById(R.id.lvExp);
+
+       /// preparing list data
+        prepareListData();
+
+
+
+
+        mInflater = LayoutInflater.from(this);
+        detailForecast = (LinearLayout) findViewById(R.id.detailForecast);
+
         mSettings = getSharedPreferences(SHAREDPREFERENCE_NAME, Context.MODE_PRIVATE);
         mAllData = new AllData();
         mAlertManager=new AlertManager(this);
+        listAdapter = new ExpandableListAdapter(this, mAllData.mAllForecastData.getList());
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
 
         iconWindAndPresser = (ImageView) findViewById(R.id.iconWindAndPresser);
         iconSun = (ImageView) findViewById(R.id.iconSun);
@@ -283,7 +323,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
                 MyLog.d(TAG, "start newURL request code 1");
                 if(Validater.isInternetAvailable(this)) {
                     mDataFetchingTask = (DataFetchingTask) new DataFetchingTask(HomeActivity.this, WeatherApi.WEATHER
-                            + "q=" + selectedCity, this);
+                            + "q=" + selectedCity, WeatherApi.FORECAST
+                            + "q=" + selectedCity+ "&cnt=14",this);
                     mDataFetchingTask.execute();
                 }else{
                     mAlertManager.showAlert(R.string.please_connect_to_internet);
@@ -349,6 +390,15 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
             valuePresser.setText(mAllData.mAllWeatherData.mMain.getPressure());
             lastUpdateTime.setText("Last update : " + mAllData.mAllWeatherData.getLastUpdateTime());
             iconDetail.setImageResource(mAllData.mAllWeatherData.getIconId());
+
+
+            if(!mAllData.mAllForecastData.getList().isEmpty()) {
+                ((ExpandableListAdapter) expListView.getExpandableListAdapter()).notifyDataSetChanged();
+                tempratureMinimumNow.setText(mAllData.mAllForecastData.list.get(0).getMinimumTemperature());
+                tempratureMaximumNow.setText(mAllData.mAllForecastData.list.get(0).getMaximumTemperature());
+            }
+
+
         }else{
             mAlertManager.showAlert(R.string.no_data_found);
         }
@@ -362,7 +412,8 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
 
             if(Validater.isInternetAvailable(this)) {
                 mDataFetchingTask = (DataFetchingTask) new DataFetchingTask(HomeActivity.this, WeatherApi.WEATHER
-                        + "q=" + selectedCity, this);
+                        + "q=" + selectedCity, WeatherApi.FORECAST
+                        + "q=" + selectedCity+ "&cnt=14",this);
                 mDataFetchingTask.execute();
             }else{
                 mAlertManager.showAlert(R.string.please_connect_to_internet);
@@ -381,6 +432,7 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         }
         super.onPause();
     }
+
 
     /** Called when returning to the activity */
     @Override
@@ -477,4 +529,63 @@ public class HomeActivity extends ActionBarActivity implements RequestManager.Re
         } catch (Exception e) {e.printStackTrace();
         }
     }
+    /*
+     * Preparing the list data
+     */
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+
+      // Adding child data
+      /*  listDataHeader.add("Top 250");
+        listDataHeader.add("Now Showing");
+        listDataHeader.add("Coming Soon..");
+
+        // Adding child data
+        List<String> top250 = new ArrayList<String>();
+        top250.add("The Shawshank Redemption");
+        top250.add("The Godfather");
+        top250.add("The Godfather: Part II");
+        top250.add("Pulp Fiction");
+        top250.add("The Good, the Bad and the Ugly");
+        top250.add("The Dark Knight");
+        top250.add("12 Angry Men");
+
+        List<String> nowShowing = new ArrayList<String>();
+        nowShowing.add("The Conjuring");
+        nowShowing.add("Despicable Me 2");
+        nowShowing.add("Turbo");
+        nowShowing.add("Grown Ups 2");
+        nowShowing.add("Red 2");
+        nowShowing.add("The Wolverine");
+
+        List<String> comingSoon = new ArrayList<String>();
+        comingSoon.add("2 Guns");
+        comingSoon.add("The Smurfs 2");
+        comingSoon.add("The Spectacular Now");
+        comingSoon.add("The Canyons");
+        comingSoon.add("Europa Report");
+
+        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), nowShowing);
+        listDataChild.put(listDataHeader.get(2), comingSoon);*/
+    }
+    @Override
+    public void onGroupExpand(int groupPosition) {
+        LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) expListView.getLayoutParams();
+        param.height = (3 * expListView.getHeight());
+        expListView.setLayoutParams(param);
+        expListView.refreshDrawableState();
+        scrollView.refreshDrawableState();
+    }
+
+    @Override
+    public void onGroupCollapse(int groupPosition) {
+        LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) expListView.getLayoutParams();
+        param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        expListView.setLayoutParams(param);
+        expListView.refreshDrawableState();
+        scrollView.refreshDrawableState();
+    }
+
 }

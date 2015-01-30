@@ -8,8 +8,8 @@ android {
         applicationId "weatherreporter.com.weatherreporter"
         minSdkVersion 11
         targetSdkVersion 21
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.2"
     }
     buildTypes {
         release {
@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.0'
     compile 'com.google.android.gms:play-services:6.+'
     compile 'com.android.support:appcompat-v7:21.0.0'
+
 }
